@@ -9,19 +9,20 @@ import { useDispatch, useSelector } from "react-redux"
 
 export default function BoardCards() {
 
- const [board, setBoards] = useState([])
  const router = useRouter();
  const dispatch = useDispatch()
- const allboards = useSelector(getAllBoards)
+ const boards: IBoards[] = useSelector(getAllBoards)
 
 
  
  useEffect(()=>{
         dispatch(findAllBoards(1)) //숫자 1 <- 1페이지를 의미
-       },[allboards])
+       },[dispatch])
 
-  return (<>
-   <h2>게시판 목록 들어옴</h2>
-   {allboards.map((board:IBoards) => (<CardButton/>))}
-   </>)
+       return (<>
+         {boards.map((board) => (
+             <CardButton key={board.id} id={board.id||0} title={board.title||""} description={board.description||""}/>
+         ))}
+ 
+     </>);
 }

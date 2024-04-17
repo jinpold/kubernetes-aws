@@ -1,6 +1,6 @@
 'use client'
 import { IArticles } from "@/app/components/article/model/article";
-import { findArticleById, findModify } from "@/app/components/article/service/article-service";
+import { findArticleById, findDeleteById, findModify } from "@/app/components/article/service/article-service";
 import { contentHandler, getArticleById, titleHandler } from "@/app/components/article/service/article-slice";
 import AxiosConfig from "@/app/components/common/configs/axios-config";
 import { PG } from "@/app/components/common/enums/PG";
@@ -23,9 +23,7 @@ export default function ArticleDetailPage (props:any){
     },[])
 
     const handleDelete = () => {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/articles/delete/${props.params.id}`
-        const config = AxiosConfig()
-        axios.delete(url, config).then(res => {alert(JSON.stringify(res.data))})
+        dispatch(findDeleteById(props.params.id))
       }
 
     const handleClickTitle  = (e:any) => dispatch(titleHandler(e.target.value))

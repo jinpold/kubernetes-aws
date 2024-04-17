@@ -1,12 +1,12 @@
 package com.james.api.article.service;
 import com.james.api.article.model.ArticleDto;
 import com.james.api.article.repository.ArticleRepository;
+import com.james.api.board.model.Board;
 import com.james.api.common.component.Messenger;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -51,5 +51,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public boolean existsById(Long id) {
         return repository.existsById(id);
+    }
+    @Override
+    public List<ArticleDto> findAllByBoardId(Long id) {
+        return repository.findAllByBoardId(id)
+                .stream().map(i -> entityToDto(i))
+                .toList();
     }
 }

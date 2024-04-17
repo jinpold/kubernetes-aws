@@ -61,3 +61,14 @@ export const findCountAPI = async () =>{
     }
 
 }
+export const findBoardMyListAPI = async (id:number) =>{    
+    try{                                                        
+        const response = await instance.get('/articles/myList',{
+            params: {id}
+        })
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }   
+}

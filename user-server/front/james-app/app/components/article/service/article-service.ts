@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { findAllArticlesAPI, findArticleByIdAPI, findCountAPI, findDeleteByIdAPI, findModifyAPI } from "./article-api";
+import { findAllArticlesAPI, findArticleByIdAPI, findCountAPI, findDeleteByIdAPI, findModifyAPI, findBoardMyListAPI } from "./article-api";
 import { IArticles } from "../model/article";
 
 
@@ -41,5 +41,10 @@ export const findDeleteById: any = createAsyncThunk(
 export const findCount: any = createAsyncThunk( 
     'articles/findCount',                      
     async () => (await findCountAPI())
+)
+
+export const findBoardMyList: any = createAsyncThunk( 
+    'articles/findBoardMyList',                      
+    async (id:number) => (await findBoardMyListAPI(id))
 )
 

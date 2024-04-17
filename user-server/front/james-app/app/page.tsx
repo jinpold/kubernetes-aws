@@ -36,7 +36,7 @@ export default function Home(){
       setCookie({},'token',auth.token, { httpOnly: false, path: '/' })
       console.log('서버에서 넘어온 메시지' + parseCookies().message)
       console.log('서버에서 넘어온 토큰' + parseCookies().token)
-      router.push('/pages/board/list')
+      router.push('/pages/user/list')
     
       
     } else {

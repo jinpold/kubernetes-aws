@@ -1,4 +1,5 @@
 package com.james.api.article;
+import com.james.api.article.model.Article;
 import com.james.api.article.model.ArticleDto;
 import com.james.api.article.service.ArticleServiceImpl;
 import com.james.api.board.model.BoardDto;
@@ -49,8 +50,8 @@ public class ArticleController {
         log.info("입력받은 정보 : {}", dto );
         return ResponseEntity.ok(service.modify(dto));
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Messenger> deleteById(@PathVariable Long id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
@@ -62,5 +63,9 @@ public class ArticleController {
     public ResponseEntity<Messenger> existsById(PageRequestVo vo){
         service.existsById(0L);
         return ResponseEntity.ok(new Messenger());
+    }
+    @GetMapping("/myList")
+    public ResponseEntity<List<ArticleDto>> findAllByBoardId(@RequestParam("id") Long id){
+        return ResponseEntity.ok(service.findAllByBoardId(id));
     }
 }

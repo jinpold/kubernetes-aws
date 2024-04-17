@@ -8,7 +8,7 @@ interface ILinkButton{
 }
 
 export default function LinkButton ({id, title, path}:ILinkButton) {
-    return (<li>  <Link key={id} href={`${path}`}
+    return (<li><Link key={id} href={`${path}`}
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent
                      md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500
                       dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent
@@ -24,7 +24,7 @@ export default function LinkButton ({id, title, path}:ILinkButton) {
         {id:3, title:'카운터', path:`${PG.DEMO}/counter`},
         {id:4, title:'게시판목록', path:`${PG.BOARD}/list`},
         {id:5, title:'게시글목록', path:`${PG.ARTICLE}/list`}, 
-        {id:6, title:'사용자목록', path:`${PG.BOARD}/list`}
+        {id:6, title:'사용자목록', path:`${PG.USER}/list`}
       ];
 
 

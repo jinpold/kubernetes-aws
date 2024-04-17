@@ -40,7 +40,6 @@ const JoinPage: NextPage = () =>  {
       })
   }
 
-
   return (<>
     <div className="container">
       <h1>Sign Up</h1>
