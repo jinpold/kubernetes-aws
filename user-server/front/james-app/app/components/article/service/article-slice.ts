@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllArticles, findArticleById, findCount, findDeleteById, findModify, findBoardMyList } from "./article-service";
-import { IArticles } from "../model/article";
+import { findAllArticles, findArticleById, findCount, findDeleteById, findModify, findBoardMyList, findArticlePost } from "./article-service";
+import { IArticle } from "../model/article";
 
 const articleThunks = [findAllArticles]
 
@@ -11,14 +11,14 @@ const status = {
 }
 
 interface articleState{
-    json?:IArticles,
-    array?:Array<IArticles>,
+    json?:IArticle,
+    array?:Array<IArticle>,
     message?:string,
     count?:number,
 }
 export const initialState:articleState={
-    json:{} as IArticles,
-    array:[] as Array<IArticles>,
+    json:{} as IArticle,
+    array:[] as Array<IArticle>,
     message:"",
     count:0,
 }
@@ -57,7 +57,8 @@ export const articleSlice = createSlice({   // 슬라이스의 이름 = articles
         .addCase(findDeleteById.fulfilled, (state:any, {payload}:any)=>{state.json = payload}) 
         .addCase(findCount.fulfilled, (state:any, {payload}:any)=>{state.count = payload})
         .addCase(findModify.fulfilled, (state:any, {payload}:any) => {state.array = payload})
-        .addCase(findBoardMyList.fulfilled, (state:any, {payload}:any) => {state.array = payload})  
+        .addCase(findBoardMyList.fulfilled, (state:any, {payload}:any) => {state.array = payload})
+        .addCase(findArticlePost.fulfilled, (state:any, {payload}:any) => {state.message= payload})  
     }
 
 })
@@ -96,6 +97,13 @@ export const getCount = (state: any) => {
     console.log(JSON.stringify(state.article.count))
     console.log("값 불러오기")
     return state.article.count; 
+}
+
+export const getArticlePost = (state: any) => {
+    console.log('---------------- Before useSelector ----------------')
+    console.log(JSON.stringify(state.article.message))
+    console.log("값 불러오기")
+    return state.article.message; 
 }
 
 export const {titleHandler, contentHandler} = articleSlice.actions

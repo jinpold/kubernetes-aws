@@ -27,10 +27,10 @@ public class ArticleServiceImplTest {
     private static Article testArticle;
     @Mock
     private ArticleRepository repository;
-    @BeforeEach
-    void setup() {
-        this.service = new ArticleServiceImpl(repository);
-    }
+//    @BeforeEach
+//    void setup() {
+//        this.service = new ArticleServiceImpl(repoitory);
+//    }
 
 //    @BeforeEach
 //    public void init(){

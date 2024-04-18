@@ -2,24 +2,29 @@ package com.james.api.article.service;
 import com.james.api.article.model.Article;
 import com.james.api.article.model.ArticleDto;
 import com.james.api.board.model.Board;
+import com.james.api.board.repository.BoardRepository;
+import com.james.api.common.component.Messenger;
 import com.james.api.common.service.CommandService;
 import com.james.api.common.service.QueryService;
 import com.james.api.user.model.User;
+import com.james.api.user.model.UserDto;
+import com.james.api.user.repository.UserRepository;
 
 import java.util.*;
 
 public interface ArticleService extends CommandService<ArticleDto>, QueryService<ArticleDto> {
 
-    List<ArticleDto> findAllByBoardId(Long id);
+    List<ArticleDto> getArticleByBoardId(Long id);
 
-    default Article dtoToEntity(ArticleDto dto) {
+    default Article dtoToEntity(ArticleDto dto, BoardRepository repository ) {
 
         return Article.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .writer(User.builder().id(dto.getWriterId()).build())
-                .board(Board.builder().id(dto.getBoardId()).build())
+//                .writer(User.builder().id(dto.getWriterId()).build())
+//                .board(Board.builder().id(dto.getBoardId()).build())
+                .board(repository.findById(dto.getBoardId()).orElse(null))
                 .build();
     }
     default ArticleDto entityToDto(Article ent) {

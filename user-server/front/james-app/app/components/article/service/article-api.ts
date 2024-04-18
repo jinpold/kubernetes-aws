@@ -1,5 +1,5 @@
 import { instance } from '@/app/components/common/configs/axios-config'
-import { IArticles } from '../model/article'
+import { IArticle } from '../model/article'
 
 export const findAllArticlesAPI = async (page: number) =>{     // axios = 동기식, 
     try{                                                        // axios를 thunk로 감싸면 비동기가 된다
@@ -26,7 +26,7 @@ export const findArticleByIdAPI = async (id: number) =>{
     }
 }
 
-export const findModifyAPI = async (article: IArticles) => {
+export const findModifyAPI = async (article: IArticle) => {
     try{
         const response = (await instance.put('/articles/modify', article))
             
@@ -66,6 +66,17 @@ export const findBoardMyListAPI = async (id:number) =>{
         const response = await instance.get('/articles/myList',{
             params: {id}
         })
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }   
+}
+
+export const findArticlePostAPI = async (article:IArticle) =>{    
+    try{                                                        
+        const response = await instance.post('/articles/save', article)
+
         return response.data
     }catch(error){
         console.log(error)

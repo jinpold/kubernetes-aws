@@ -1,11 +1,9 @@
 package com.james.api.article;
-import com.james.api.article.model.Article;
 import com.james.api.article.model.ArticleDto;
+import com.james.api.article.repository.ArticleRepository;
 import com.james.api.article.service.ArticleServiceImpl;
-import com.james.api.board.model.BoardDto;
 import com.james.api.common.component.Messenger;
 import com.james.api.common.component.PageRequestVo;
-import com.james.api.user.model.UserDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +25,7 @@ import java.util.Optional;
 @Slf4j
 public class ArticleController {
     private final ArticleServiceImpl service;
+    private final ArticleRepository repository;
 
     @SuppressWarnings("static-access")
     @PostMapping( "/save")
@@ -36,7 +35,7 @@ public class ArticleController {
 
     }
     @GetMapping("/list")
-    public ResponseEntity<List<ArticleDto>> findAll() throws SQLException {
+    public ResponseEntity<List<ArticleDto>> findByBoardId() throws SQLException {
         return ResponseEntity.ok(service.findAll());
     }
 
@@ -65,7 +64,7 @@ public class ArticleController {
         return ResponseEntity.ok(new Messenger());
     }
     @GetMapping("/myList")
-    public ResponseEntity<List<ArticleDto>> findAllByBoardId(@RequestParam("id") Long id){
-        return ResponseEntity.ok(service.findAllByBoardId(id));
+    public ResponseEntity<List<ArticleDto>> getArticleByBoardId(@RequestParam("id") Long boardId) {
+        return ResponseEntity.ok(service.getArticleByBoardId(boardId));
     }
 }

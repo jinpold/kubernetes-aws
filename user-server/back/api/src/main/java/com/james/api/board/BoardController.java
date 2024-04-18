@@ -1,5 +1,4 @@
 package com.james.api.board;
-import com.james.api.user.model.UserDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,7 @@ import com.james.api.common.component.Messenger;
 import com.james.api.common.component.PageRequestVo;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
@@ -33,14 +32,12 @@ public class BoardController {
     public ResponseEntity<Messenger> save(@RequestBody BoardDto dto) {
         log.info("입력받은 정보 : {}", dto );
         return ResponseEntity.ok(service.save(dto));
-
     }
     @GetMapping("/list") //all-users
     public ResponseEntity<List<BoardDto>> findAll() throws SQLException {
         log.info("입력받은 정보 : {}" );
         return ResponseEntity.ok(service.findAll());
     }
-
     @GetMapping("/detail")
     public ResponseEntity<BoardDto> findById(@RequestParam Long id) {
         log.info("입력받은 정보 : {}", id );
@@ -56,7 +53,6 @@ public class BoardController {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
-
     @GetMapping("/count")
     public ResponseEntity<Long> count()  {
         return ResponseEntity.ok(service.count());
@@ -66,5 +62,7 @@ public class BoardController {
         service.existsById(0L);
         return ResponseEntity.ok(new Messenger());
     }
+
+
 
 }

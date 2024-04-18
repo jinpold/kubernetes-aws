@@ -1,4 +1,4 @@
-export interface IArticles {
+export interface IArticle {
     id?: number,
     title?: string,
     content?: string,
@@ -8,6 +8,4 @@ export interface IArticles {
     message? : string,
     regDate?: string;
     modDate?: string;
-    array?: IArticles[],
-    json?: {}
 }

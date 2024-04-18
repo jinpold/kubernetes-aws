@@ -7,8 +7,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import ArticleColumns from "@/app/components/article/module/article-columns";
 import React from "react";
-import { IArticles } from "@/app/components/article/model/article";
+import { IArticle } from "@/app/components/article/model/article";
 import { getAllArticles } from "@/app/components/article/service/article-slice";
+import { PG } from "@/app/components/common/enums/PG";
+import MoveButton from "@/app/atoms/button/MoveButton";
 
 const cards = [
   "https://www.tailwindtap.com/assets/components/horizontal-carousel/mountain-nightview.jpg",
@@ -23,11 +25,11 @@ const cards = [
 export default function MyListPage (props:any) {
     const dispatch = useDispatch()
     
-    const allArticles: IArticles[] = useSelector(getAllArticles) 
+    const allArticles: IArticle[] = useSelector(getAllArticles) 
     
     useEffect(() => { 
         dispatch(findBoardMyList(props.params.id)) 
-    }, []) 
+    }, [dispatch]) 
     
     return (<>
     <div className="flex flex-col  items-center justify-center w-full bg-white-300">
@@ -47,6 +49,10 @@ export default function MyListPage (props:any) {
           );
         })}
       </div>
+      <td>
+        <MoveButton text={"글쓰기"} path={`${PG.ARTICLE}/save`}/>
+      
+        </td>
     </div>
         <h2> 게시글 수 :{allArticles.length} </h2> 
         <Box sx={{ height: "100%", width: '100%' }}>

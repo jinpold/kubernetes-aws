@@ -1,5 +1,5 @@
 'use client'
-import { IArticles } from "@/app/components/article/model/article";
+import { IArticle } from "@/app/components/article/model/article";
 import { findArticleById, findDeleteById, findModify } from "@/app/components/article/service/article-service";
 import { contentHandler, getArticleById, titleHandler } from "@/app/components/article/service/article-slice";
 import AxiosConfig from "@/app/components/common/configs/axios-config";
@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 export default function ArticleDetailPage (props:any){
 
     const dispatch = useDispatch()
-    const article:IArticles = useSelector(getArticleById)
+    const article:IArticle = useSelector(getArticleById)
     const router = useRouter()
     
     useEffect(()=>{
