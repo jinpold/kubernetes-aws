@@ -51,7 +51,6 @@ export default function MyListPage (props:any) {
       </div>
       <td>
         <MoveButton text={"글쓰기"} path={`${PG.ARTICLE}/save`}/>
-      
         </td>
     </div>
         <h2> 게시글 수 :{allArticles.length} </h2> 

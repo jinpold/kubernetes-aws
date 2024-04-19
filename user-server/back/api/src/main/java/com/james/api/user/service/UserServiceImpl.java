@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -85,10 +86,22 @@ public class UserServiceImpl implements UserService {
 //                }
 
     // SRP에 따라 아이디 존재여부를 프론트에서 먼저 판단하고, 넘어옴 (시큐리티)
+    @Transactional
     @Override
     public Messenger login(UserDto dto) {
-        boolean flag = repository.findUserByUsername
-                (dto.getUsername()).get().getPassword().equals(dto.getPassword());
+        User user = repository.findUserByUsername((dto.getUsername())).get();
+        String token = jwtProvider.createToken(entityToDto(user));
+        boolean flag = user.getPassword().equals(dto.getPassword());
+
+//        String token = jwtProvider.createToken(dto);
+        String[] chunks = token.split("\\.");
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        String header = new String(decoder.decode(chunks[0]));
+        String payload = new String(decoder.decode(chunks[1]));
+
+        log.info("Token Header :" +header);
+        log.info("Token Header :" +payload);
+
 
         return Messenger.builder()
                 .message(flag ? "SUCCESS" : "FAILURE")
@@ -112,13 +125,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findUsersByName(String name) {
-        return null;
+    public Boolean existsByUsername(String username) {
+        Integer count  = repository.existsByUsername(username);
+        return count ==1;
     }
+
     @Override
     public Optional<User> findUserByUsername(String username) {
         return repository.findUserByUsername(username);
-//        User user = repository.findByUsername(username);
+        //        User user = repository.findByUsername(username);
 //        return Optional.of(entityToDto(user));
     }
 }

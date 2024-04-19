@@ -68,3 +68,13 @@ export const findLoginAPI = async (user:IUsers) => {
         return error
     }
 }
+
+export const findExistUsernameAPI = async (username:string) => {
+    try{
+        const response = await instance.get('/users/exists-username',{params: {username}})
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }
+}

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllUsers, findCount, findDeleteById, findLogin, findModify, findUserById } from "./user-service";
+import { findAllUsers, findCount, findDeleteById, findExistUsername, findLogin, findModify, findUserById } from "./user-service";
 import { IUsers } from "../model/user";
 
 const userThunks = [findAllUsers]
@@ -17,18 +17,21 @@ const handleRejected = (state:any) => {}
 interface IAuth{
     message? : string
     token? : string
+    // existUsername?: boolean
 
 }
 interface UserState  {
     json?  : IUsers,
     array? : Array<IUsers>,
-    auth? : IAuth
+    auth? : IAuth,
+    // existUsername: false
 }
 
 export const initialState:UserState = {
-    json : {} as IUsers, // = 자바 IUsers user = new IUsers; 와 같다.
-    array : [],
-    auth : {} as IAuth
+    json: {} as IUsers, // = 자바 IUsers user = new IUsers; 와 같다.
+    array: [],
+    auth: {} as IAuth,
+    // existUsername: false
 }
 
 export const userSlice = createSlice({
@@ -52,6 +55,7 @@ export const userSlice = createSlice({
         .addCase(findDeleteById.fulfilled, (state:any, {payload}:any) => {state.json = payload})
         .addCase(findCount.fulfilled, (state:any, {payload}:any) => {state.count = payload})
         .addCase(findLogin.fulfilled, (state:any, {payload}:any) => {state.auth = payload})
+        .addCase(findExistUsername.fulfilled, (state:any, {payload}:any) => {state.json = payload})
     }
 })
 
@@ -65,6 +69,7 @@ export const getModify = (state: any) => (state.user.array)
 export const getDeleteById = (state: any) => (state.user.json)
 export const getCount = (state: any) => (state.user.count)
 export const getAuth = (state: any) => (state.user.auth) //getAuth
+export const getExistUsername = (state: any) => (state.user.json)
 
 export const {passwordHandler, phoneHandler, jobHandler } = userSlice.actions
 

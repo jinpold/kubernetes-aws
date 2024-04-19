@@ -7,7 +7,5 @@ export const initialState: IArticle = {
     content: "",
     writerId: 0,
     boardId: 0,
-    message: "",
-    regDate: "",
-    count: 0
+    regDate: ""
 }

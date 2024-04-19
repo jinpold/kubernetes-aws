@@ -4,6 +4,8 @@ import com.james.api.article.model.ArticleDto;
 import com.james.api.article.repository.ArticleRepository;
 import com.james.api.article.service.ArticleService;
 import com.james.api.article.service.ArticleServiceImpl;
+import com.james.api.board.repository.BoardRepository;
+import com.james.api.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,15 +29,19 @@ public class ArticleServiceImplTest {
     private static Article testArticle;
     @Mock
     private ArticleRepository repository;
-//    @BeforeEach
-//    void setup() {
-//        this.service = new ArticleServiceImpl(repoitory);
-//    }
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private BoardRepository boardRepository;
+    @BeforeEach
+    void setup() {
+        this.service = new ArticleServiceImpl(repository, boardRepository, userRepository);
+    }
 
-//    @BeforeEach
-//    public void init(){
-//        testArticle = Article.of("테스트제목", "테스트글");
-//    }
+    @BeforeEach
+    public void init(){
+        testArticle = Article.of("테스트제목", "테스트글");
+    }
     @Test
     public void 게시글_제목_검색(){
         //Given

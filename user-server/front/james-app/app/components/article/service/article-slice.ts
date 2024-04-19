@@ -58,7 +58,8 @@ export const articleSlice = createSlice({   // 슬라이스의 이름 = articles
         .addCase(findCount.fulfilled, (state:any, {payload}:any)=>{state.count = payload})
         .addCase(findModify.fulfilled, (state:any, {payload}:any) => {state.array = payload})
         .addCase(findBoardMyList.fulfilled, (state:any, {payload}:any) => {state.array = payload})
-        .addCase(findArticlePost.fulfilled, (state:any, {payload}:any) => {state.message= payload})  
+        .addCase(findArticlePost.fulfilled, (state:any, {payload}:any) => {state.message= payload})
+          
     }
 
 })

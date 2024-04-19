@@ -4,6 +4,7 @@ import com.james.api.article.model.ArticleDto;
 import com.james.api.article.repository.ArticleRepository;
 import com.james.api.board.repository.BoardRepository;
 import com.james.api.common.component.Messenger;
+import com.james.api.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
-    private final ArticleRepository repository;
+    private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
     @Override
     public Messenger save(ArticleDto t) {
-        Article ent = repository.save(dtoToEntity(t,boardRepository));
+        Article ent = articleRepository.save(dtoToEntity(t));
         return Messenger.builder()
                 .message(ent instanceof Article ? "SUCCESS" : "FAILURE")
                 .build();
@@ -26,44 +27,39 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Messenger deleteById(Long id) {
-        repository.deleteById(id);
+        articleRepository.deleteById(id);
         return Messenger.builder()
-                .message(repository.findById(id).isPresent() ? "SUCCESS" : "FAILURE")
+                .message(articleRepository.findById(id).isPresent() ? "SUCCESS" : "FAILURE")
                 .build();
     }
     @Transactional
     @Override
     public Messenger modify(ArticleDto dto) {
-        repository.save(dtoToEntity(dto, boardRepository));
+        articleRepository.save(dtoToEntity(dto));
         return Messenger.builder()
                 .message("성공")
-                .status(200)
                 .build();
     }
-
     @Override
     public List<ArticleDto> findAll() throws SQLException {
-        return repository.findAll().stream().map(i -> entityToDto(i)).toList();
+        return articleRepository.findAll().stream().map(i -> entityToDto(i)).toList();
     }
-
     @Override
     public Optional<ArticleDto> findById(Long id) {
-        return repository.findById(id).stream().map(i -> entityToDto(i)).findAny();
+        return articleRepository.findById(id).stream().map(i -> entityToDto(i)).findAny();
     }
 
     @Override
     public Long count() {
-        return repository.count();
+        return articleRepository.count();
     }
-
     @Override
     public boolean existsById(Long id) {
-        return repository.existsById(id);
+        return articleRepository.existsById(id);
     }
-
     @Override
     public List<ArticleDto> getArticleByBoardId(Long boardId) {
-        return repository.getArticleByBoardId(boardId)
+        return articleRepository.getArticleByBoardId(boardId)
                 .stream().map(i -> entityToDto(i))
                 .toList();
     }

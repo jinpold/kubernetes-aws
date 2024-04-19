@@ -86,4 +86,11 @@ public class UserController {
         service.findUsersByJob(null);
         return ResponseEntity.ok(new Messenger());
     }
+    @GetMapping("/exists-username")
+    public ResponseEntity<Boolean> existsByUsername(@RequestParam("username") String username) {
+        log.info("existsByUsername 파라미터 정보:"+username);
+        boolean flag = service.existsByUsername(username);
+        log.info("existsByUsername 결과:" + username);
+        return ResponseEntity.ok(flag);
+    }
 }
