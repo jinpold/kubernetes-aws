@@ -69,14 +69,14 @@ export default function Home() {
       setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
       console.log('서버에서 넘어온 메시지' + parseCookies().message)
       console.log('서버에서 넘어온 토큰' + parseCookies().token)
-      console.log('토큰을 디코드한 내용 ' + jwtDecode<any>(parseCookies().token))
+      console.log('토큰을 디코드한 내용 ' + jwtDecode<any>(parseCookies().token).username)
       router.push('/pages/board/list') // card를 list로 이름 바꿈  (jwtDecode<any>(parseCookies().token)?.username)
 
 
     } else {
       console.log('LOGIN FAIL')
     }
-  }, [auth])
+  }, [auth]) // .message 넣고 테스트 해봐야함.
 
   return (<>
     <h2>ID :  dmcclure0 </h2> <br />

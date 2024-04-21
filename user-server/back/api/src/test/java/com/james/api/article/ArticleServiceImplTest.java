@@ -35,7 +35,7 @@ public class ArticleServiceImplTest {
     private BoardRepository boardRepository;
     @BeforeEach
     void setup() {
-        this.service = new ArticleServiceImpl(repository, boardRepository, userRepository);
+        this.service = new ArticleServiceImpl(repository, boardRepository);
     }
 
     @BeforeEach

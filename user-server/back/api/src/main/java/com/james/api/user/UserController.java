@@ -1,6 +1,5 @@
 package com.james.api.user;
 import com.james.api.common.component.Messenger;
-import com.james.api.common.component.PageRequestVo;
 import com.james.api.user.model.User;
 import com.james.api.user.model.UserDto;
 import com.james.api.user.repository.UserRepository;
@@ -66,7 +65,7 @@ public class UserController {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
-    @GetMapping("/exists")
+    @GetMapping("/exists-id")
     public ResponseEntity<UserDto> existsById(@RequestParam Long id){
         service.existsById(0L);
         return ResponseEntity.ok(service.findById(id).orElseGet(UserDto::new));
@@ -76,14 +75,14 @@ public class UserController {
         return ResponseEntity.ok(service.count());
     }
 
-    @PostMapping("/search")
+    @PostMapping("/search-name")
     public ResponseEntity<Optional<User>> findUsersByName(@RequestBody UserDto param) {
         //log.info("입력받은 정보 : {}", name );
         return ResponseEntity.ok(service.findUserByUsername(param.getName()));
     }
-    @GetMapping("/findUserByJob")
-    public ResponseEntity<Messenger> findUserByJob(PageRequestVo vo) {
-        service.findUsersByJob(null);
+    @GetMapping("/search-job")
+    public ResponseEntity<Messenger> findUsersByJob(@RequestParam("job") String job) {
+        service.findUsersByJob(job);
         return ResponseEntity.ok(new Messenger());
     }
     @GetMapping("/exists-username")

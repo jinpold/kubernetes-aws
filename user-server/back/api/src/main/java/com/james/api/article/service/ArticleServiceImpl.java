@@ -63,4 +63,9 @@ public class ArticleServiceImpl implements ArticleService {
                 .stream().map(i -> entityToDto(i))
                 .toList();
     }
+
+    @Override
+    public List<ArticleDto> findArticlesByTitle(String name) {
+        return articleRepository.findArticlesByTitle(name);
+    }
 }

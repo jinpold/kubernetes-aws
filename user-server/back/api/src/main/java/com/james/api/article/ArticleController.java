@@ -67,4 +67,11 @@ public class ArticleController {
     public ResponseEntity<List<ArticleDto>> getArticleByBoardId(@RequestParam("id") Long boardId) {
         return ResponseEntity.ok(service.getArticleByBoardId(boardId));
     }
+
+    // -----------------추가 Method (확인용)--------------------------------------
+    @GetMapping("/search")
+    public ResponseEntity<List<ArticleDto>> findArticlesByTitle(@RequestBody ArticleDto param) {
+        log.info("입력받은 정보 : {}", param.getTitle());
+        return ResponseEntity.ok(service.findArticlesByTitle(param.getTitle()));
+    }
 }

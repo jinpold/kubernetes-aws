@@ -24,6 +24,7 @@ interface UserState  {
     json?  : IUsers,
     array? : Array<IUsers>,
     auth? : IAuth,
+    exist?: string
     // existUsername: false
 }
 

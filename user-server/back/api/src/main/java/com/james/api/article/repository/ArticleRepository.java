@@ -1,5 +1,6 @@
 package com.james.api.article.repository;
 import com.james.api.article.model.Article;
+import com.james.api.article.model.ArticleDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,5 +30,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 //            "from articles a where a.board.id = :boardId ")
 //    List<Article> getArticleDTPsByBoardId(@Param("boardId") Long boardId);
 
-
+    List<ArticleDto> findArticlesByTitle(String name);
+    Boolean existsByTitle(String title);
 }

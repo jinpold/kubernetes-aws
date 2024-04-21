@@ -12,7 +12,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     Messenger modify(UserDto user);
     // query
     Messenger login(UserDto param);
-    List<UserDto> findUsersByJob(String job);
+    Optional<User> findUsersByJob(String job);
     Boolean existsByUsername(String username);
     Optional<User> findUserByUsername(String username);
 

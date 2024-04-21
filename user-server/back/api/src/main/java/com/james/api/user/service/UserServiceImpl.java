@@ -120,8 +120,8 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public List<UserDto> findUsersByJob(String job) {
-        return null;
+    public Optional<User> findUsersByJob(String job) {
+        return repository.findUsersByJob(job);
     }
 
     @Override
