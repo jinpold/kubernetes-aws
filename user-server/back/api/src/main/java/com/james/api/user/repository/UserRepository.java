@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUsersByJob(String job);
 
     @Query("select count(id) as count from users where username = :username")
-    Integer existsByUsername(String username); //boolean 타입은 쿼리매소드 작성불가 => count로 대체
+    Integer existsByUsername(@Param("username") String username); //boolean 타입은 쿼리매소드 작성불가 => count로 대체
 
     @Modifying
     @Query("update users set token=:token where id = :id")

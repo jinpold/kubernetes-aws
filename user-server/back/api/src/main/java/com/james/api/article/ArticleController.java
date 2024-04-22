@@ -3,7 +3,7 @@ import com.james.api.article.model.ArticleDto;
 import com.james.api.article.repository.ArticleRepository;
 import com.james.api.article.service.ArticleServiceImpl;
 import com.james.api.common.component.Messenger;
-import com.james.api.common.component.PageRequestVo;
+import com.james.api.common.component.pagination.PageRequestVo;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*") // 기존에 origins = http://localhost:3000 이던걸 보안 걸었음. 퍼사드 패턴
 @RestController

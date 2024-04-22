@@ -1,4 +1,4 @@
-package com.james.api.common.component;
+package com.james.api.common.component.files;
 import lombok.*;
 import org.springframework.stereotype.Component;
 

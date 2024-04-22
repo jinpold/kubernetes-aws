@@ -24,7 +24,7 @@ import java.util.*;
 @Slf4j
 public class UserController {
     private final UserService service;
-    private final UserRepository repo;
+    private final UserRepository userRepository;
 
     // ---------------------------------Command---------------------------------------
     @SuppressWarnings("static-access")
@@ -85,11 +85,10 @@ public class UserController {
         service.findUsersByJob(job);
         return ResponseEntity.ok(new Messenger());
     }
-    @GetMapping("/exists-username")
+    @GetMapping("/exists-username") //헤더 자리 params // 바디는  @RequestParam
     public ResponseEntity<Boolean> existsByUsername(@RequestParam("username") String username) {
         log.info("existsByUsername 파라미터 정보:"+username);
-        boolean flag = service.existsByUsername(username);
         log.info("existsByUsername 결과:" + username);
-        return ResponseEntity.ok(flag);
+        return ResponseEntity.ok(service.existsByUsername(username));
     }
 }

@@ -48,7 +48,6 @@ public class ArticleServiceImpl implements ArticleService {
     public Optional<ArticleDto> findById(Long id) {
         return articleRepository.findById(id).stream().map(i -> entityToDto(i)).findAny();
     }
-
     @Override
     public Long count() {
         return articleRepository.count();
@@ -63,7 +62,6 @@ public class ArticleServiceImpl implements ArticleService {
                 .stream().map(i -> entityToDto(i))
                 .toList();
     }
-
     @Override
     public List<ArticleDto> findArticlesByTitle(String name) {
         return articleRepository.findArticlesByTitle(name);

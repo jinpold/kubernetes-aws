@@ -1,5 +1,5 @@
 package com.james.api.user.service;
-import com.james.api.common.component.JwtProvider;
+import com.james.api.common.component.security.JwtProvider;
 import com.james.api.common.component.Messenger;
 import com.james.api.user.model.User;
 import com.james.api.user.model.UserDto;
@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService {
 //        user.get().setUsername(userDto.getUsername());
 //        return Optional.of(repository.save(user.get())).map(i -> entityToDto(i));
 //    }
+
+    @Transactional
     @Override
     public Messenger deleteById(Long id) {
         repository.deleteById(id);
@@ -89,25 +91,22 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Messenger login(UserDto dto) {
+        log.info("로그인 서비스로 들어온 파라미터 : "+dto);
         User user = repository.findUserByUsername((dto.getUsername())).get();
-        String token = jwtProvider.createToken(entityToDto(user));
+        String accessToken = jwtProvider.createToken(entityToDto(user));
         boolean flag = user.getPassword().equals(dto.getPassword());
 
-//        String token = jwtProvider.createToken(dto);
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String header = new String(decoder.decode(chunks[0]));
-        String payload = new String(decoder.decode(chunks[1]));
-
-        log.info("Token Header :" +header);
-        log.info("Token Header :" +payload);
+        // 토큰을 각 섹션 (Header, payload, signature)으로 분할
+        jwtProvider.getPayload(accessToken);
 
 
         return Messenger.builder()
                 .message(flag ? "SUCCESS" : "FAILURE")
-                .token(flag ? jwtProvider.createToken(dto) : "NONE")
+                .accessToken(flag ? jwtProvider.createToken(dto) : "NONE")
                 .build();
     }
+
+
     //    @Override
 //    public Messenger login(UserDto dto) {
 //        return Messenger.builder()

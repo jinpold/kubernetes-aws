@@ -1,4 +1,4 @@
-package com.james.api.common.component;
+package com.james.api.common.component.pagination;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

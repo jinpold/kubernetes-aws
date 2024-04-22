@@ -3,7 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import MuiDemoColumns from '@/app/components/demo/module/mui-demo-columns';
-import MuiDemoRows from '@/app/components/board/mui-demo-rows';
+import MuiDemoRows from '@/app/components/demo/module/mui-demo-rows';
 
 
 export default function DataGridDemo() {

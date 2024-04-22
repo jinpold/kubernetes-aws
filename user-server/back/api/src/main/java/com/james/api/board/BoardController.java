@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.james.api.board.model.BoardDto;
 import com.james.api.board.service.BoardServiceImpl;
 import com.james.api.common.component.Messenger;
-import com.james.api.common.component.PageRequestVo;
+import com.james.api.common.component.pagination.PageRequestVo;
 import java.sql.SQLException;
 import java.util.List;
 

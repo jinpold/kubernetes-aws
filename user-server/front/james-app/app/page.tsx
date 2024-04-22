@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PG } from "./components/common/enums/PG";
 import { useRouter } from "next/navigation";
@@ -11,77 +11,110 @@ import { parseCookies, destroyCookie, setCookie } from 'nookies';
 import { jwtDecode } from "jwt-decode";
 
 
-export default function Home() {
+const LoginPage = () => {
   const router = useRouter();
 
   const dispatch = useDispatch()
   const auth = useSelector(getAuth)
-  const message:boolean = useSelector(getExistUsername)
+  const message: boolean = useSelector(getExistUsername)
 
   const [user, setUser] = useState({} as IUsers)
   const [isWrongId, setIsWrongId] = useState(false)
   const [isWrongPw, setIsWrongPw] = useState(false)
-
-
+  // const [beforeSubmit, setBeforeSubmit] = useState(true)
+  const passwordRef = useRef<HTMLInputElement>(null); // form은 이름 -> 지우는 용도
 
   const handleUsername = (e: any) => {
-    const ID_CHECK = /^[a-zA-Z]+[a-zA-Z]{5,19}$/g;
+    const ID_CHECK = /^[a-zA-Z0-9][a-zA-Z0-9]{5,19}$/g;
     // 영어 대소문자로 시작하는 6~20자의 영어 소문자 또는 숫자
 
     if (ID_CHECK.test(e.target.value)) {
       setIsWrongId(false)
-    } else if (e.target.value === ''){
+    } else if (e.target.value == null) {
       setIsWrongId(false)
     } else {
       setIsWrongId(true)
-      router.refresh
-    } setUser({ ...user, username: e.target.value })
+    } 
+    setUser({ 
+      ...user, 
+      username: e.target.value 
+    })
   }
-  // console.log('e.target.value 확인용 user...'+JSON.stringify(e.target.value))
+   // console.log('e.target.value 확인용 user...'+JSON.stringify(e.target.value))
 
 
   const handlePassword = (e: any) => {
     const PW_CHECK = /^[a-zA-Z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]{8,20}$/g;
-
-
+  // 6 ~ 20자의 영어 대소문자 또는 숫자 또는 특수문자
     if (PW_CHECK.test(e.target.value)) {
       setIsWrongPw(false)
-      console.log('입력된 정보가 일치합니다.')
-    } else if (e.target.value === ''){
+    } else if (e.target.value == null) {
       setIsWrongPw(false)
     } else {
       setIsWrongPw(true)
-      console.log('잘못된 형식의 비밀번호입니다')
-      router.refresh
-    } setUser({ ...user, password: e.target.value })
+    } 
+    setUser({ 
+      ...user,
+       password: e.target.value 
+      })
   }
 
   const handleSubmit = () => {
     console.log('dispatch확인용 user...' + JSON.stringify(user))
+    // dispatch(findLogin(user)) 원래 사용하던 로그인을 아래와 같이 프로미스를 사용하여 진행
     dispatch(findExistUsername(user.username))
-    // dispatch(findLogin(user))
+      .then((res: any) => { //promise 리덕스의 상태 변경을 보고있음.
+        if (res.payload == true) {
+          dispatch(findLogin(user))
+            .then((res: any) => {
+              setCookie({}, 'message', res.payload.message, { httpOnly: false, path: '/' })
+              setCookie({}, 'accessToken', res.payload.accessToken, { httpOnly: false, path: '/' })
+              console.log('서버에서 넘어온 메시지' + parseCookies().message)
+              console.log('서버에서 넘어온 토큰' + parseCookies().accessToken)
+              console.log('토큰을 디코드한 내용 ')
+              console.log(JSON.stringify(jwtDecode<any>(parseCookies().accessToken))) // JSON.stringify 문자열 형식으로 바꾸면된다.
+              router.push('/pages/board/list')
+              router.refresh();
 
-
+            })
+            .catch((err: any) => {
+              console.log('로그인 실패')
+            })
+        } else {
+          console.log('아이디가 존재 하지 않습니다.')
+          // setBeforeSubmit(false)
+          setIsWrongId(false)
+          // setIsWrongPw(false)
+          
+        }
+      })
+      .catch((err: any) => {
+        console.log('catch 로직 err 발생 : '+ `${err}`)
+      })
+      .finally(() => {
+        console.log('최종적으로 반드시 이뤄져야 할 로직')
+      })
+        console.log('아이디가 존재 하지 않습니다.')
+        setIsWrongId(false)
+        // setIsWrongPw(false)
+      if (passwordRef.current) {
+        passwordRef.current.value = "";
+      }
   }
-  useEffect(() => {
-    if (auth.message === 'SUCCESS') {
-      setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
-      setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
-      console.log('서버에서 넘어온 메시지' + parseCookies().message)
-      console.log('서버에서 넘어온 토큰' + parseCookies().token)
-      console.log('토큰을 디코드한 내용 ' + jwtDecode<any>(parseCookies().token).username)
-      router.push('/pages/board/list') // card를 list로 이름 바꿈  (jwtDecode<any>(parseCookies().token)?.username)
+  // useEffect(() => {
+  //   if (auth.message === 'SUCCESS') {
+  //     setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
+  //     setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
+  //     console.log('서버에서 넘어온 메시지' + parseCookies().message)
+  //     console.log('서버에서 넘어온 토큰' + parseCookies().token)
+  //     console.log('토큰을 디코드한 내용 ' + jwtDecode<any>(parseCookies().token).username)
+  //     router.push('/pages/board/list') // card를 list로 이름 바꿈  (jwtDecode<any>(parseCookies().token)?.username)
+  //   } else {
+      
+  //   }
+  // }, [auth]) // .message 넣고 테스트 해봐야함.
 
-
-    } else {
-      console.log('LOGIN FAIL')
-    }
-  }, [auth]) // .message 넣고 테스트 해봐야함.
-
-  return (<>
-    <h2>ID :  dmcclure0 </h2> <br />
-    <h2>PW :  pO2(eO73)%@ </h2>
-    <div className="h-[70vh] flex items-center justify-center">
+  return (<><div className="h-[70vh] flex items-center justify-center">
       <div className="flex bg-white rounded-lg shadow-lg border overflow-hidden max-w-sm lg:max-w-4xl w-full">
         <div className="hidden md:block lg:w-1/2 bg-cover bg-blue-700"
           style={{
@@ -90,6 +123,8 @@ export default function Home() {
         ></div>
         <div className="w-full p-8 lg:w-1/2">
           <p className="text-xl text-gray-600 text-center">Welcome back!</p>
+           <h2>ID :  dmcclure0 </h2>
+           <h2>PW :  pO2(eO73)%@ </h2>
           <div className="mt-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               ID
@@ -102,36 +137,35 @@ export default function Home() {
             />
           </div>
           {isWrongId && (<pre>
-            <h6 className='text-red-500'>아이디가 일치하지 않습니다.</h6>
+            <h6 className='text-red-600'>잘못된 아이디입니다.</h6>
           </pre>)}
           {!message && (<pre>
-              <h6 className='text-red-500'>아아디가 일치합니다. </h6>
-            </pre>)}
+            <h6 className='text-red-600'>없는 아아디입니다. </h6>
+          </pre>)}
           <div className="mt-4 flex flex-col justify-between">
             <div className="flex justify-between">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Password
               </label>
             </div>
-            {isWrongPw && (<pre>
-              <h6 className='text-red-500'>비밀번호가 일치하지 않습니다.</h6>
-            </pre>)}
-            {!message && (<pre>
-              <h6 className='text-red-500'>비밀번호가 일치합니다. </h6>
-            </pre>)}
-
             <input
+              ref={passwordRef}
               onChange={handlePassword}
               className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
               type="password"
             />
+            {isWrongPw && (<pre>
+              <h6 className='text-red-600'>잘못된 비밀번호입니다.</h6>
+            </pre>)}
+            {!message && (<pre>
+              <h6 className='text-red-600'>없는 비밀번호입니다. </h6>
+            </pre>)}
             <a
               href="#"
               className="text-xs text-gray-500 hover:text-gray-900 text-end w-full mt-2"
             >
               Forget Password?
             </a>
-
           </div>
           <div className="mt-8">
             <button
@@ -186,3 +220,5 @@ export default function Home() {
     </div></>
   );
 }
+
+export default LoginPage;

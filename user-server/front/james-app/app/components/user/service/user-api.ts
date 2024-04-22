@@ -1,4 +1,6 @@
-import { instance } from "@/app/components/common/configs/axios-config"
+
+
+import instance from "../../common/configs/axios-config"
 import { IUsers } from "../model/user"
 import { json } from "stream/consumers"
 
@@ -61,7 +63,7 @@ export const findLoginAPI = async (user:IUsers) => {
         console.log("axios 보내기 전 api 확인용"+JSON.stringify(user))
         const response = await instance.post('/users/login',user)
         // 자바에서 가져오는 메신저 데이터를 담음
-        console.log("api 확인용"+JSON.stringify(response.data))
+        console.log("login api 확인용"+JSON.stringify(response.data))
         return response.data
     }catch(error){
         console.log(error)
@@ -72,6 +74,17 @@ export const findLoginAPI = async (user:IUsers) => {
 export const findExistUsernameAPI = async (username:string) => {
     try{
         const response = await instance.get('/users/exists-username',{params: {username}})
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+export const fineLogoutAPI = async () => {
+    try{
+        const response = await instance.get('/users/logout',{params:{}})
+        console.log("logout api 확인용"+JSON.stringify(response.data))
         return response.data
     }catch(error){
         console.log(error)

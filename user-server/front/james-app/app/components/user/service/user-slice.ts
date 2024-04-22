@@ -42,8 +42,6 @@ export const userSlice = createSlice({
         passwordHandler: (state:any, {payload}) => {state.json.password = payload},
         phoneHandler: (state:any, {payload}) => {state.json.phone = payload},
         jobHandler: (state:any, {payload}) => {state.json.job = payload},
-        // setUsername : (state:any, {payload}) => {state.json.username = payload},
-        // setPassword : (state:any, {payload}) => {state.json.password = payload}
        
     },
     extraReducers:builder =>{
@@ -69,7 +67,7 @@ export const getUserById = (state: any) => (state.user.json)
 export const getModify = (state: any) => (state.user.array)
 export const getDeleteById = (state: any) => (state.user.json)
 export const getCount = (state: any) => (state.user.count)
-export const getAuth = (state: any) => (state.user.auth) //getAuth
+export const getAuth = (state: any) => (state.user.auth)
 export const getExistUsername = (state: any) => (state.user.json)
 
 export const {passwordHandler, phoneHandler, jobHandler } = userSlice.actions
