@@ -10,7 +10,6 @@ import { IUsers } from "./components/user/model/user";
 import { parseCookies, destroyCookie, setCookie } from 'nookies';
 import { jwtDecode } from "jwt-decode";
 
-
 const LoginPage = () => {
   const router = useRouter();
 
@@ -30,7 +29,7 @@ const LoginPage = () => {
 
     if (ID_CHECK.test(e.target.value)) {
       setIsWrongId(false)
-    } else if (e.target.value == null) {
+    } else if (e.target.value === '') {
       setIsWrongId(false)
     } else {
       setIsWrongId(true)
@@ -48,7 +47,7 @@ const LoginPage = () => {
   // 6 ~ 20자의 영어 대소문자 또는 숫자 또는 특수문자
     if (PW_CHECK.test(e.target.value)) {
       setIsWrongPw(false)
-    } else if (e.target.value == null) {
+    } else if (e.target.value === '') {
       setIsWrongPw(false)
     } else {
       setIsWrongPw(true)
@@ -56,12 +55,13 @@ const LoginPage = () => {
     setUser({ 
       ...user,
        password: e.target.value 
-      })
+      }) // 스프레드 문법
   }
 
   const handleSubmit = () => {
     console.log('dispatch확인용 user...' + JSON.stringify(user))
     // dispatch(findLogin(user)) 원래 사용하던 로그인을 아래와 같이 프로미스를 사용하여 진행
+    if(isWrongId===true || isWrongPw=== true){return}
     dispatch(findExistUsername(user.username))
       .then((res: any) => { //promise 리덕스의 상태 변경을 보고있음.
         if (res.payload == true) {
@@ -72,7 +72,7 @@ const LoginPage = () => {
               console.log('서버에서 넘어온 메시지' + parseCookies().message)
               console.log('서버에서 넘어온 토큰' + parseCookies().accessToken)
               console.log('토큰을 디코드한 내용 ')
-              console.log(JSON.stringify(jwtDecode<any>(parseCookies().accessToken))) // JSON.stringify 문자열 형식으로 바꾸면된다.
+              console.log(jwtDecode<any>(parseCookies().accessToken))// JSON.stringify 문자열 형식으로 바꾸면된다.
               router.push('/pages/board/list')
               router.refresh();
 
@@ -139,7 +139,7 @@ const LoginPage = () => {
           {isWrongId && (<pre>
             <h6 className='text-red-600'>잘못된 아이디입니다.</h6>
           </pre>)}
-          {!message && (<pre>
+          {!message && !isWrongId && (<pre>
             <h6 className='text-red-600'>없는 아아디입니다. </h6>
           </pre>)}
           <div className="mt-4 flex flex-col justify-between">
@@ -157,7 +157,7 @@ const LoginPage = () => {
             {isWrongPw && (<pre>
               <h6 className='text-red-600'>잘못된 비밀번호입니다.</h6>
             </pre>)}
-            {!message && (<pre>
+            {!message && !isWrongPw && (<pre>
               <h6 className='text-red-600'>없는 비밀번호입니다. </h6>
             </pre>)}
             <a

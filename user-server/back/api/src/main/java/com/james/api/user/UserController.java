@@ -36,14 +36,6 @@ public class UserController {
     }
     // -----------------------------------Query ---------------------------------------
 
-    @PostMapping(path = "/login")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto dto) {
-        log.info("입력받은 정보 : {}", dto);
-        return ResponseEntity.ok(service.login(UserDto.builder()
-                .username(dto.getUsername())
-                .password(dto.getPassword())
-                .build()));
-    }
     @GetMapping("/list")
     public ResponseEntity<List<UserDto>> findAll() throws SQLException {
         log.info("입력받은 정보 : {}");
@@ -85,10 +77,11 @@ public class UserController {
         service.findUsersByJob(job);
         return ResponseEntity.ok(new Messenger());
     }
-    @GetMapping("/exists-username") //헤더 자리 params // 바디는  @RequestParam
-    public ResponseEntity<Boolean> existsByUsername(@RequestParam("username") String username) {
-        log.info("existsByUsername 파라미터 정보:"+username);
-        log.info("existsByUsername 결과:" + username);
-        return ResponseEntity.ok(service.existsByUsername(username));
+    @GetMapping("/logout")
+    public ResponseEntity<Boolean> logout(@RequestHeader("Authorization") String accessToken){
+        log.info("logout request : {}", accessToken);
+        Long id = 1L;
+        Boolean flag = service.logout(id);
+        return ResponseEntity.ok(flag);
     }
 }

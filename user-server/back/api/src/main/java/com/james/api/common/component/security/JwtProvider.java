@@ -1,5 +1,8 @@
 package com.james.api.common.component.security;
 import com.james.api.user.model.UserDto;
+import com.james.api.user.repository.UserRepository;
+import com.james.api.user.service.UserServiceImpl;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -20,11 +23,12 @@ public class JwtProvider {
 
     @Value("${jwt.iss}")
     private String issuer;
-
     private final SecretKey secretKey;
+
     public JwtProvider(@Value("${jwt.secret}") String secretKey) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
     }
+
     public String createToken(UserDto dto) {
 
         String accessToken = Jwts.builder()
@@ -42,15 +46,14 @@ public class JwtProvider {
     }
 
     public String extractTokenFromHeader(HttpServletRequest request) {
+        log.info("프론트에서 넘어온 리퀘스트 값 : {}", request.getServletPath());
         String bearerToken = request.getHeader("Authorization");
+        log.info("프론트에서 넘어온 토큰 값 : {}", bearerToken);
+        return bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7): "undefined";
 
-        if(bearerToken != null && bearerToken.startsWith("Bearer")){
-            return bearerToken.substring(7);
-        }
-        return null;
     }
-
-    public String getPayload(String accessToken) {
+    // 토큰 발급이 잘됐는지 확인하기 위한 코드 (void로 바꾸고 리턴 없앰)
+    public void printPayload(String accessToken) {
         String[] chunks = accessToken.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
@@ -58,9 +61,12 @@ public class JwtProvider {
         String payload = new String(decoder.decode(chunks[1]));
 
         log.info("accessToken Header :" +header);
-        log.info("accessToken Header :" +payload);
+        log.info("accessToken payload :" +payload);
 
-//        return new StringBuilder().append(header).append(payload).toString();
-        return payload;
     }
+    // getPayload = Claims의 집합 => secretKey 때문에 Jwt프로바이더에서 로직을 만들었음. (원래 인터셉터)
+    public Claims getPayload(String token){
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+    }
+
 }

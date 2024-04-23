@@ -8,8 +8,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -97,12 +95,12 @@ public class UserServiceImpl implements UserService {
         boolean flag = user.getPassword().equals(dto.getPassword());
 
         // 토큰을 각 섹션 (Header, payload, signature)으로 분할
-        jwtProvider.getPayload(accessToken);
+        jwtProvider.printPayload(accessToken);
 
 
         return Messenger.builder()
                 .message(flag ? "SUCCESS" : "FAILURE")
-                .accessToken(flag ? jwtProvider.createToken(dto) : "NONE")
+                .accessToken(flag ? accessToken : "NONE")
                 .build();
     }
 
@@ -134,5 +132,10 @@ public class UserServiceImpl implements UserService {
         return repository.findUserByUsername(username);
         //        User user = repository.findByUsername(username);
 //        return Optional.of(entityToDto(user));
+    }
+
+    @Override
+    public Boolean logout(Long id) {
+        return null;
     }
 }

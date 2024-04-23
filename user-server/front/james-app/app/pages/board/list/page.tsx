@@ -15,9 +15,9 @@ export default function BoardCards() {
 
 
  
-//  useEffect(()=>{
-//         dispatch(findAllBoards(1)) //숫자 1 <- 1페이지를 의미
-//        },[dispatch])
+ useEffect(()=>{
+        dispatch(findAllBoards(1)) //숫자 1 <- 1페이지를 의미
+       },[dispatch])
 
        return (<>
        <h1> 게시판 목록 들어옴</h1>

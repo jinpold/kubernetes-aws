@@ -24,5 +24,4 @@ public class BoardDto {
 
     //    @Builder.Default    // = List를 디폴트 타입으로 준다.
     private List<Article> article; // = new ArrayList<>()
-
 }

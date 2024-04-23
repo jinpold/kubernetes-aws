@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@ToString(exclude = {"id"})
+@ToString(exclude = {"article", "id"})
 @Entity(name="boards")
 
 public class Board extends BaseEntity {

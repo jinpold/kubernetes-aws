@@ -16,6 +16,8 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     Boolean existsByUsername(String username);
     Optional<User> findUserByUsername(String username);
 
+    Boolean logout(Long id);
+
     default User dtoToEntity(UserDto dto){
         return User.builder()
                 .id(dto.getId())
@@ -38,6 +40,8 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .modDate(ent.getModDate().toString())
                 .build();
     }
+
+
 }
 
 
