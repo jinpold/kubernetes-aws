@@ -4,7 +4,7 @@ import { IArticle } from '../model/article'
 export const findAllArticlesAPI = async (page: number) =>{     // axios = 동기식, 
     try{                                                        // axios를 thunk로 감싸면 비동기가 된다
         const response = await instance().get('/articles/list',{
-            params: {page, size:10, limit: 10}
+            params: {page, size:20, limit: 20}
         })
         return response.data
     }catch(error){

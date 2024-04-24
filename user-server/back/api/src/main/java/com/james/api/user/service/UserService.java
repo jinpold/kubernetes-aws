@@ -15,8 +15,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     Optional<User> findUsersByJob(String job);
     Boolean existsByUsername(String username);
     Optional<User> findUserByUsername(String username);
-
-    Boolean logout(Long id);
+    Boolean logout(String accessToken);
 
     default User dtoToEntity(UserDto dto){
         return User.builder()

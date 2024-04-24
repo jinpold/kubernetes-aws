@@ -92,12 +92,14 @@ public class UserServiceImpl implements UserService {
         log.info("로그인 서비스로 들어온 파라미터 : "+dto);
         User user = repository.findUserByUsername((dto.getUsername())).get();
         String accessToken = jwtProvider.createToken(entityToDto(user));
+
         boolean flag = user.getPassword().equals(dto.getPassword());
-
+        log.info("accessToken 확인용: "+accessToken);
+        repository.modifyTokenById(user.getId(), accessToken);
         // 토큰을 각 섹션 (Header, payload, signature)으로 분할
+
+
         jwtProvider.printPayload(accessToken);
-
-
         return Messenger.builder()
                 .message(flag ? "SUCCESS" : "FAILURE")
                 .accessToken(flag ? accessToken : "NONE")
@@ -133,9 +135,12 @@ public class UserServiceImpl implements UserService {
         //        User user = repository.findByUsername(username);
 //        return Optional.of(entityToDto(user));
     }
-
+    @Transactional
     @Override
-    public Boolean logout(Long id) {
-        return null;
+    public Boolean logout(String accessToken) {
+        Long id = 1L; //특정사용자를 위한 초기화값
+        String deleteToken = "";
+        repository.modifyTokenById(id,deleteToken);
+        return repository.findById(id).get().getToken().equals("");
     }
 }

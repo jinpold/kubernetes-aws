@@ -17,10 +17,21 @@ const WriterArticlePage:NextPage = () => {
   const saveMsg = useSelector(getArticlePost)
   const [newPost, setNewPost] = useState({} as IArticle)
 
+  const options = [
+    {id:1, title:"REVIEW", content: "리뷰게시판"},
+    {id:2, title:"QNA", content: "Q&A게시판"},
+    {id:3, title:"free", content: "자유게시판"},
+  ]
+
   const cancelHandler = () => {
     alert("취소 완료")
     router.back();
   }
+
+  const selectHandler = (e:any) => {
+    console.log("값은 ?"+ parseInt(e.target.value))
+    setNewPost
+  ({...newPost, boardId : parseInt(e.target.value)})} 
 
   const titleHandler = (e:any) => setNewPost
   ({...newPost, title: e.target.value})
@@ -28,14 +39,10 @@ const WriterArticlePage:NextPage = () => {
   const contentHandler = (e:any) => setNewPost
   ({...newPost, content: e.target.value})
   
-  const boardIdHandler = (e:any) => {
-    console.log("값은 ?"+ parseInt(e.target.value))
-    setNewPost
-  ({...newPost, boardId : parseInt(e.target.value)})} 
-  
-
+ 
   const postHandler = () => {
     dispatch(findArticlePost(newPost));
+    console.log(saveMsg)
     if(saveMsg?.message==='SUCCESS'){
       router.push(`${PG.ARTICLE}/list/${newPost.boardId}`);
       alert("post 완료");
@@ -51,13 +58,10 @@ const WriterArticlePage:NextPage = () => {
     
     <form className="max-w-sm mx-auto">
     <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-    <select onChange={boardIdHandler} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <select onChange={selectHandler} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     <option selected>게시글 목록</option>
-    <option value="1">Review</option>
-    <option value="2">Q&A</option>
-    {/* <option value="CA">Canada</option>
-    <option value="FR">France</option>
-    <option value="DE">Germany</option> */}
+    {options.map((elem)=>(<option value={elem.id} key={elem.id} title={elem.title}>{elem.content}</option>
+    ))}
     </select>
     </form>
     <div className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">

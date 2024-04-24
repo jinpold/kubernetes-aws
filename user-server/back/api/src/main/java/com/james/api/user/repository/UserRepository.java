@@ -1,5 +1,4 @@
 package com.james.api.user.repository;
-import com.james.api.common.component.Messenger;
 import com.james.api.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Query("update users set token=:token where id = :id")
-    public void modifyTokenById(@Param("id") Long id);
+    public void modifyTokenById(@Param("id") Long id, @Param("token") String deleteToken);
 
 }

@@ -23,7 +23,7 @@ export const setInterceptor = (inputInstance: AxiosInstance) => {
             const accessToken = parseCookies().accessToken;
             console.log('AXIOS 인터셉터에서 쿠키에서 토큰 추출함')
             request.headers['Content-Type'] = "application/json"
-            request.headers['Authorization'] = `Bearer ${accessToken}`
+            request.headers['Authorization'] = `Bearer ${accessToken}` // Authorization 키 -> 자바에서 키 확인
             return request
         },
         (error) => {

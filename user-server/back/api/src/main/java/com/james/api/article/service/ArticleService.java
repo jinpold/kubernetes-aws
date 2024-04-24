@@ -18,15 +18,15 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
 
     List<ArticleDto> findArticlesByTitle(String name);
 
-    default Article dtoToEntity(ArticleDto dto) {
-
+    default Article dtoToEntity(ArticleDto dto, BoardRepository boardRepository, UserRepository userRepository) {
         return Article.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .writer(User.builder().id(dto.getWriterId()).build())
-                .board(Board.builder().id(dto.getBoardId()).build())
-//                .board(repository.findById(dto.getBoardId()).orElse(null))
+//                .writer(User.builder().id(dto.getWriterId()).build())
+//                .board(Board.builder().id(dto.getBoardId()).build())
+                .writer(userRepository.findById(dto.getBoardId()).orElse(null))
+                .board(boardRepository.findById(dto.getBoardId()).orElse(null))
                 .build();
     }
     default ArticleDto entityToDto(Article ent) {
@@ -37,8 +37,8 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
                 .content(ent.getContent())
                 .writerId(ent.getWriter().getId())
                 .boardId(ent.getBoard().getId())
-                .regDate(ent.getRegDate().toString())
-                .modDate(ent.getModDate().toString())
+                .regDate(String.valueOf(ent.getModDate()))
+                .modDate(String.valueOf(ent.getRegDate()))
                 .build();
     }
 }

@@ -13,17 +13,15 @@ export default function BoardCards() {
  const dispatch = useDispatch()
  const boards: IBoards[] = useSelector(getAllBoards)
 
-
  
  useEffect(()=>{
         dispatch(findAllBoards(1)) //숫자 1 <- 1페이지를 의미
        },[dispatch])
 
        return (<>
-       <h1> 게시판 목록 들어옴</h1>
-         {/* {boards.map((board) => (
+       <h1> 게시판 목록 </h1>
+         {boards.map((board) => (
              <CardButton key={board.id} id={board.id||0} title={board.title||""} description={board.description||""}/>
-         ))} */}
- 
+         ))}
      </>);
 }
