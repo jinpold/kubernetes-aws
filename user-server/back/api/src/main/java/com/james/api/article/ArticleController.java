@@ -39,7 +39,7 @@ public class ArticleController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ArticleDto> findById(@RequestParam Long id) {
+    public ResponseEntity<ArticleDto> findById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.findById(id).orElseGet(ArticleDto::new));
     }
@@ -49,7 +49,7 @@ public class ArticleController {
         return ResponseEntity.ok(service.modify(dto));
     }
     @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
+    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
@@ -67,10 +67,4 @@ public class ArticleController {
         return ResponseEntity.ok(service.getArticleByBoardId(boardId));
     }
 
-    // -----------------추가 Method (확인용)--------------------------------------
-    @GetMapping("/search")
-    public ResponseEntity<List<ArticleDto>> findArticlesByTitle(@RequestBody ArticleDto param) {
-        log.info("입력받은 정보 : {}", param.getTitle());
-        return ResponseEntity.ok(service.findArticlesByTitle(param.getTitle()));
-    }
 }

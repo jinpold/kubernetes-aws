@@ -28,17 +28,17 @@ const JoinPage: NextPage = () =>  {
 
   const router = useRouter();
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault()
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/users/save`
-    const data = { username, password, name, phone, job} // data = requestbody
-    const config = AxiosConfig()
-    axios.post(url, data, config)
-      .then(res => {
-        alert("response가 가져온 ID : " + JSON.stringify(res.data)) // response.responsebody = res.data = hashmap
-        router.push(`${PG.USER}/login`)
-      })
-  }
+  // const handleSubmit = (e:any) => {
+  //   e.preventDefault()
+  //   const url = `${process.env.NEXT_PUBLIC_API_URL}/users/save`
+  //   const data = { username, password, name, phone, job} // data = requestbody
+  //   const config = AxiosConfig()
+  //   axios.post(url, data, config)
+  //     .then(res => {
+  //       alert("response가 가져온 ID : " + JSON.stringify(res.data)) // response.responsebody = res.data = hashmap
+  //       router.push(`${PG.USER}/login`)
+  //     })
+  // }
 
   return (<>
     <div className="container">
@@ -66,7 +66,7 @@ const JoinPage: NextPage = () =>  {
       <p>By creating an account you agree to our <a href="#" style={{ color: "dodgerblue" }}>Terms & Privacy</a>.</p>
       <div className="clearfix">
         <button type="button" className="cancelbtn" >Cancel</button>
-        <button type="submit" className="signupbtn" onClick={handleSubmit}>Sign Up</button>
+        {/* <button type="submit" className="signupbtn" onClick={handleSubmit}>Sign Up</button> */}
       </div>
     </div>
   </>);

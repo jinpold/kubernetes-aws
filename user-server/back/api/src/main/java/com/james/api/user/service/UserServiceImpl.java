@@ -128,7 +128,6 @@ public class UserServiceImpl implements UserService {
         Integer count  = repository.existsByUsername(username);
         return count ==1;
     }
-
     @Override
     public Optional<User> findUserByUsername(String username) {
         return repository.findUserByUsername(username);
@@ -137,8 +136,11 @@ public class UserServiceImpl implements UserService {
     }
     @Transactional
     @Override
-    public Boolean logout(String accessToken) {
-        Long id = 1L; //특정사용자를 위한 초기화값
+    public Boolean logout(String token) {
+        String accessToken = token != null && token.startsWith("Bearer ") ?
+                token.substring(7) : "undefined";
+        Long id = jwtProvider.getPayload(accessToken).get("userId", Long.class);
+//        Long id = 1L;
         String deleteToken = "";
         repository.modifyTokenById(id,deleteToken);
         return repository.findById(id).get().getToken().equals("");

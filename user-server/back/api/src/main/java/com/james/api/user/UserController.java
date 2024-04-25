@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")
-    public ResponseEntity<UserDto> findById(@RequestParam Long id) {
+    public ResponseEntity<UserDto> findById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.findById(id).orElseGet(UserDto::new));
     }
@@ -52,13 +52,13 @@ public class UserController {
         log.info("입력받은 정보 : {}", dto );
         return ResponseEntity.ok(service.modify(dto));
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Messenger> deleteById(@PathVariable Long id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping("/exists-id")
-    public ResponseEntity<UserDto> existsById(@RequestParam Long id){
+    public ResponseEntity<UserDto> existsById(@RequestParam("id") Long id){
         service.existsById(0L);
         return ResponseEntity.ok(service.findById(id).orElseGet(UserDto::new));
     }

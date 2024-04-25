@@ -16,8 +16,6 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
 
     List<ArticleDto> getArticleByBoardId(Long id);
 
-    List<ArticleDto> findArticlesByTitle(String name);
-
     default Article dtoToEntity(ArticleDto dto, BoardRepository boardRepository, UserRepository userRepository) {
         return Article.builder()
                 .id(dto.getId())

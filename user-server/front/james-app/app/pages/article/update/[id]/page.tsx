@@ -14,7 +14,7 @@ import { jwtDecode } from "jwt-decode";
 import { parseCookies } from "nookies";
 
 
-const WriterArticlePage:NextPage = () => {
+const UpdateArticlePage:NextPage = () => {
 
   const {register, handleSubmit, formState: { errors },} = useForm();
 
@@ -46,28 +46,6 @@ const WriterArticlePage:NextPage = () => {
     alert("취소 완료")
     router.back();
   }
-
-  // const selectHandler = (e:any) => setNewPost
-  // ({...newPost, boardId : parseInt(e.target.value)})
-
-  // const titleHandler = (e:any) => setNewPost
-  // ({...newPost, title: e.target.value})
-
-  // const contentHandler = (e:any) => setNewPost
-  // ({...newPost, content: e.target.value})
-  
- 
-  // const postHandler = () => {
-  //   dispatch(findArticlePost(newPost));
-  //   console.log(saveMsg)
-  //   if(saveMsg?.message==='SUCCESS'){
-  //     router.push(`${PG.ARTICLE}/myList/${newPost.boardId}`);
-  //     router.refresh()
-  //     alert("post 완료");
-  //   }else if(saveMsg?.message==='FAILURE'){
-  //     alert("post 실패");
-  //   }
-  // }
 
    useEffect(()=>{},[]) // 보드리스트가 넘어오게 해야한다.  
 
@@ -118,4 +96,4 @@ const WriterArticlePage:NextPage = () => {
 
   </> )
 }
-export default WriterArticlePage
+export default UpdateArticlePage

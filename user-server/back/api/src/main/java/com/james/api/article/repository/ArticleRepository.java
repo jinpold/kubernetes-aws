@@ -13,7 +13,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     // JPQL Default 방식
     @Query("select a "
-            + "from articles a where a.board.id = :boardId ")
+            + "from articles a where a.board.id = :boardId order by a.id desc")
     List<Article> getArticleByBoardId(@Param("boardId") Long boardId);
 
 
@@ -30,6 +30,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 //            "from articles a where a.board.id = :boardId ")
 //    List<Article> getArticleDTPsByBoardId(@Param("boardId") Long boardId);
 
-    List<ArticleDto> findArticlesByTitle(String name);
+//    List<Article> getAllByOrderByIdDesc();
+
     Boolean existsByTitle(String title);
 }

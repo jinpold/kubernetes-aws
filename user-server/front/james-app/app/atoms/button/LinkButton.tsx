@@ -1,4 +1,5 @@
 import { PG } from "@/app/components/common/enums/PG";
+import { access } from "fs";
 import Link from "next/link"
 
 interface ILinkButton{
@@ -22,7 +23,8 @@ export default function LinkButton ({id, title, path}:ILinkButton) {
         {id:1, title:'카운터', path:`${PG.DEMO}/counter`},
         {id:2, title:'게시판목록', path:`${PG.BOARD}/list`},
         {id:3, title:'게시글목록', path:`${PG.ARTICLE}/list`}, 
-        {id:4, title:'사용자목록', path:`${PG.USER}/list`}
+        {id:4, title:'사용자목록', path:`${PG.USER}/list`},
+        {id:5, title:'마이페이지', path:`${PG.USER}/detail/${1}`}  //${id}토큰의 값을 이용해서 사용자 아이디를 넣어야 함
       ];
 
 

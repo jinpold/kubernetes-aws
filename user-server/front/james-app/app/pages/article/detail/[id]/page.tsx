@@ -24,6 +24,7 @@ export default function ArticleDetailPage (props:any){
 
     const handleDelete = () => {
         dispatch(findDeleteById(props.params.id))
+        router.replace(`${PG.ARTICLE}/list`)
       }
 
     const handleClickTitle  = (e:any) => dispatch(titleHandler(e.target.value))

@@ -2,10 +2,8 @@ package com.james.api.article.service;
 import com.james.api.article.model.Article;
 import com.james.api.article.model.ArticleDto;
 import com.james.api.article.repository.ArticleRepository;
-import com.james.api.board.model.Board;
 import com.james.api.board.repository.BoardRepository;
 import com.james.api.common.component.Messenger;
-import com.james.api.user.model.User;
 import com.james.api.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +22,10 @@ public class ArticleServiceImpl implements ArticleService {
     public Messenger save(ArticleDto dto) {
         Article ent = articleRepository.save(dtoToEntity(dto, boardRepository, userRepository));
         return Messenger.builder()
+                .id(ent.getBoard().getId()) //board id
                 .message(ent instanceof Article ? "SUCCESS" : "FAILURE")
                 .build();
+
     }
 
     @Override
@@ -64,9 +64,5 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.getArticleByBoardId(boardId)
                 .stream().map(i -> entityToDto(i))
                 .toList();
-    }
-    @Override
-    public List<ArticleDto> findArticlesByTitle(String name) {
-        return articleRepository.findArticlesByTitle(name);
     }
 }

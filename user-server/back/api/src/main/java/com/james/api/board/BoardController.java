@@ -39,7 +39,7 @@ public class BoardController {
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")
-    public ResponseEntity<BoardDto> findById(@RequestParam Long id) {
+    public ResponseEntity<BoardDto> findById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.findById(id).orElseGet(BoardDto::new));
     }
@@ -48,8 +48,8 @@ public class BoardController {
         log.info("입력받은 정보 : {}", dto );
         return ResponseEntity.ok(service.modify(dto));
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Messenger> deleteById(@PathVariable Long id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }

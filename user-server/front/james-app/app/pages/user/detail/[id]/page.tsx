@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react";
 import { Button, Typography } from "@mui/material";
-import { findModify, findUserById } from "@/app/components/user/service/user-service";
+import { findDeleteById, findModify, findUserById } from "@/app/components/user/service/user-service";
 import { getUserById, jobHandler, passwordHandler, phoneHandler } from "@/app/components/user/service/user-slice";
 import { IUsers } from "@/app/components/user/model/user";
 import axios from "axios";
@@ -22,17 +22,16 @@ export default function userDetailPage (props:any){
   const handleClickPw = (e:any) => dispatch(passwordHandler(e.target.value))
   const handleClickPh = (e:any) => dispatch(phoneHandler(e.target.value))
   const handleClickJob = (e:any) => dispatch(jobHandler(e.target.value))
+
   const handleModify = () => {
         dispatch(findModify(user))
         router.replace(`${PG.USER}/list`)
   }
 
   const handleDelete = () => {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/users/delete/${props.params.id}`
-    const config = AxiosConfig()
-    axios.delete(url, config).then(res => {alert(JSON.stringify(res.data))})
-    router.replace(`${PG.USER}/list`)
-  }
+      dispatch(findDeleteById(props.params.id))
+      router.replace(`${PG.USER}/detail/${1}`)
+    }
 
   useEffect(()=>{
         dispatch(findUserById(props.params.id))
