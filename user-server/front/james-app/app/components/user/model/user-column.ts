@@ -5,6 +5,7 @@ export interface UserColumn{
     name?: string;
     phone?: string;
     job?: string;
+    email? : string
     regDate?: string;
     modDate?: string;
 }

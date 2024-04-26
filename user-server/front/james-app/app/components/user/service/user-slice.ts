@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllUsers, findCount, findDeleteById, findExistUsername, findLogin, findModify, findUserById } from "./user-service";
+import { findAllUsers, findCount, findDeleteById, findExistUsername, findLogin, findLogout, findModify, findUserById, findUserInfo } from "./user-service";
 import { IUsers } from "../model/user";
 
 const userThunks = [findAllUsers]
@@ -55,6 +55,8 @@ export const userSlice = createSlice({
         .addCase(findCount.fulfilled, (state:any, {payload}:any) => {state.count = payload})
         .addCase(findLogin.fulfilled, (state:any, {payload}:any) => {state.auth = payload})
         .addCase(findExistUsername.fulfilled, (state:any, {payload}:any) => {state.json = payload})
+        .addCase(findLogout.fulfilled, (state:any, {payload}:any) => {state.auth = payload})
+        .addCase(findUserInfo.fulfilled, (state:any, {payload}:any) => {state.json = payload})
     }
 })
 

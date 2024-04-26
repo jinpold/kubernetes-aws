@@ -21,6 +21,7 @@ public class UserDto {
     private String name;
     private String phone;
     private String job;
+    private String email;
     private List<Article> articles;
     private String regDate;
     private String modDate;

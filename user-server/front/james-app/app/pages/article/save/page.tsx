@@ -35,7 +35,7 @@ const WriterArticlePage:NextPage = () => {
     .then((res:any)=>{
       console.log('서버에서 넘어오는 save 메신저 값' + res.payload)
       alert('게시글 작성 완료' )
-      router.push(`${PG.ARTICLE}/myList/${data.boardId}`);
+      router.push(`${PG.ARTICLE}/myList/${res.payload.id}`);
       router.refresh()
     })
     .catch((err: any)=>{
@@ -75,7 +75,7 @@ const WriterArticlePage:NextPage = () => {
     return(<>
     <form onSubmit={handleSubmit(onSubmit)} className= "max-w-sm mx-auto">
     <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-    <select {...register('boardId', {required: true})}
+    <select {...register('boardId', {required: true, maxLength:5})}
     id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     <option selected>게시글 목록</option>
     {options.map((elem)=>(<option value={elem.id} key={elem.id} title={elem.title}>{elem.content}</option>
@@ -84,7 +84,7 @@ const WriterArticlePage:NextPage = () => {
   
     <div className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">
       {MyTypography('Article 작성', "1.5rem")}
-      <input type="hidden" value={jwtDecode<any>(parseCookies().accessToken).id} readOnly/>
+      <input type="hidden" value={jwtDecode<any>(parseCookies().accessToken).userId} {...register('writerId', {required: true, maxLength:40})}  readOnly/>
       <input {...register('title', {required: true, maxLength:40})}
       className="title bg-gray-100 border border-gray-300 p-2 mb-4 outline-none" placeholder="Title" type="text" name="title" />
       <textarea 

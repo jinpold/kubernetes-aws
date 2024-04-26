@@ -45,10 +45,11 @@ export default function userDetailPage (props:any){
       <span>이름 : </span><Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{user.name}</Typography>
       <span>전화번호 : </span><input type="text" placeholder={user.phone} name="phone" onChange={handleClickPh} /><br /><br />
       <span>직업 : </span> <input type="text" placeholder={user.job} name="job" onChange={handleClickJob} /><br /><br />
+      <span>이메일 : </span><Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{user.email}</Typography>
       <span>작성일자 : </span><Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{user.regDate}</Typography>
       <span>수정일자 : </span><Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{user.modDate}</Typography>
-      <Button onClick={handleModify}>Update</Button>
-      <Button onClick={handleDelete}>delete</Button>
+      <Button onClick={handleModify}>수정</Button>
+      <Button onClick={handleDelete}>탈퇴</Button>
       </>)
 }
 

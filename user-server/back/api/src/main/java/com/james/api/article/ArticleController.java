@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -57,9 +56,9 @@ public class ArticleController {
     public ResponseEntity<Long> count()  {
         return ResponseEntity.ok(service.count());
     }
-    @GetMapping("/exists/{id}")
-    public ResponseEntity<Messenger> existsById(PageRequestVo vo){
-        service.existsById(0L);
+    @GetMapping("/exists")
+    public ResponseEntity<Messenger> existsById(@RequestParam("id") Long id){
+        service.existsById(id);
         return ResponseEntity.ok(new Messenger());
     }
     @GetMapping("/myList")

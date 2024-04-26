@@ -23,7 +23,7 @@ export default function BoardColumns(): GridColDef[] {
             flex: 0.04,
             minWidth: 30,
             sortable: false,
-            field: 'boardName',
+            field: 'title',
             headerName: '게시판이름',
             renderCell: ({row}:CellType) => <Typography textAlign="center" sx={{fontSize:"1.2rem"}}>
             <Link href={`${PG.BOARD}/detail/${row.id}`} className="underline" >{row.title}</Link>
@@ -33,7 +33,7 @@ export default function BoardColumns(): GridColDef[] {
             flex: 0.04,
             minWidth: 30,
             sortable: false,
-            field: 'boardType',
+            field: 'description',
             headerName: '게시판종류',
             renderCell: ({row}:CellType) => <Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{row.description}</Typography>
         },

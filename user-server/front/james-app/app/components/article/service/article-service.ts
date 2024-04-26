@@ -43,12 +43,12 @@ export const findCount: any = createAsyncThunk(
     async () => (await findCountAPI())
 )
 
-export const findBoardMyList: any = createAsyncThunk( 
+export const findBoardMyList: any = createAsyncThunk( //데이터(api)를 비동기로 만들어서 자바와 주고 받는 것 
     'articles/findBoardMyList',                      
     async (id:number) => (await findBoardMyListAPI(id))
 )
 
-export const findArticlePost: any = createAsyncThunk( 
+export const findArticlePost: any = createAsyncThunk(  
     'articles/findArticlePost',                      
     async (article:IArticle) => {
         console.log(JSON.stringify(article))

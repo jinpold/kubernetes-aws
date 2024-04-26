@@ -18,6 +18,8 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+
+    @Transactional
     @Override
     public Messenger save(ArticleDto dto) {
         Article ent = articleRepository.save(dtoToEntity(dto, boardRepository, userRepository));

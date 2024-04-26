@@ -21,7 +21,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(value = "select + from articles a where a.board.id = 1 ", nativeQuery = true)
     List<Map<String, Object>> getQnaArticle(@Param("boardId") Long boardId);
 
-//
 //    // JPQL Return Type DTO
 //    String articleDtoMapping = "new com.james.api.article.model.ArticleDto" +
 //            "("+"a.id, a.title, a.content, a.writer.id, a.board.id " +
@@ -30,7 +29,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 //            "from articles a where a.board.id = :boardId ")
 //    List<Article> getArticleDTPsByBoardId(@Param("boardId") Long boardId);
 
-//    List<Article> getAllByOrderByIdDesc();
-
-    Boolean existsByTitle(String title);
+//    List<Article> findAllByOrderByIdDesc();
 }

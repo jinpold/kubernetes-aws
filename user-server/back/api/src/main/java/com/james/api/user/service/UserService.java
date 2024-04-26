@@ -4,8 +4,6 @@ import com.james.api.common.service.CommandService;
 import com.james.api.common.service.QueryService;
 import com.james.api.user.model.User;
 import com.james.api.user.model.UserDto;
-
-import java.util.List;
 import java.util.Optional;
 public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
     // command
@@ -25,6 +23,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .job(dto.getJob())
+                .email(dto.getEmail())
                 .build();
     }
     default UserDto entityToDto(User ent) {
@@ -35,6 +34,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .name(ent.getName())
                 .phone(ent.getPhone())
                 .job(ent.getJob())
+                .email(ent.getEmail())
                 .regDate(ent.getRegDate().toString())
                 .modDate(ent.getModDate().toString())
                 .build();

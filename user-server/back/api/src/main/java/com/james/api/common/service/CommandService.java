@@ -1,6 +1,4 @@
 package com.james.api.common.service;
-
-import com.james.api.article.model.ArticleDto;
 import com.james.api.common.component.Messenger;
 
 public interface CommandService<T> {

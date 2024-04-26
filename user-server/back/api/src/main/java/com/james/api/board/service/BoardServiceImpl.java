@@ -1,6 +1,5 @@
 package com.james.api.board.service;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.james.api.common.component.Messenger;
@@ -8,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.james.api.board.model.BoardDto;
 import com.james.api.board.repository.BoardRepository;
+
 
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,6 @@ public class BoardServiceImpl implements BoardService{
     public Optional<BoardDto> findById(Long id) {
         return repository.findById(id).stream().map(i -> entityToDto(i)).findAny();
     }
-
     @Transactional
     @Override
     public Messenger modify(BoardDto boardDto) {
@@ -56,8 +55,6 @@ public class BoardServiceImpl implements BoardService{
                         .status(200)
                         .build();
     }
-
-
     @Override
     public Long count() {
         return repository.count();

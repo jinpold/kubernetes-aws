@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final JwtProvider jwtProvider;
 
+    @Transactional
     @Override
     public Messenger save(UserDto t) {
         User ent = repository.save(dtoToEntity(t));
@@ -46,16 +46,6 @@ public class UserServiceImpl implements UserService {
                 .status(200)
                 .build();
     }
-    //    @Override
-//    public Optional<UserDto> modify(UserDto userDto) {
-//        Optional<User> user = repository.findById(userDto.getId());
-//        user.get().setName(userDto.getName());
-//        user.get().setPhone(userDto.getPhone());
-//        user.get().setJob(userDto.getJob());
-//        user.get().setUsername(userDto.getUsername());
-//        return Optional.of(repository.save(user.get())).map(i -> entityToDto(i));
-//    }
-
     @Transactional
     @Override
     public Messenger deleteById(Long id) {
@@ -78,18 +68,11 @@ public class UserServiceImpl implements UserService {
         return repository.count();
     }
 
-//    @Override
-//    public Messenger count() {
-//        return Messenger.builder()
-//                .message(repository.count()+"")
-//                .build();
-//                }
-
     // SRP에 따라 아이디 존재여부를 프론트에서 먼저 판단하고, 넘어옴 (시큐리티)
     @Transactional
     @Override
     public Messenger login(UserDto dto) {
-        log.info("로그인 서비스로 들어온 파라미터 : "+dto);
+        log.info("로그인 서비스로 들어온 파라미터 : " +dto);
         User user = repository.findUserByUsername((dto.getUsername())).get();
         String accessToken = jwtProvider.createToken(entityToDto(user));
 
@@ -98,25 +81,12 @@ public class UserServiceImpl implements UserService {
         repository.modifyTokenById(user.getId(), accessToken);
         // 토큰을 각 섹션 (Header, payload, signature)으로 분할
 
-
         jwtProvider.printPayload(accessToken);
         return Messenger.builder()
                 .message(flag ? "SUCCESS" : "FAILURE")
                 .accessToken(flag ? accessToken : "NONE")
                 .build();
     }
-
-
-    //    @Override
-//    public Messenger login(UserDto dto) {
-//        return Messenger.builder()
-//                .message(findUserByUsername(dto.getUsername())
-//                        .stream()
-//                        .filter(i -> i.getPassword().equals(dto.getPassword()))
-//                        .map(i -> "SUCCESS")
-//                        .findAny()
-//                        .orElseGet(()-> "FAILURE")).build();
-//    }
 
     @Override
     public Optional<User> findUsersByJob(String job) {
@@ -131,8 +101,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findUserByUsername(String username) {
         return repository.findUserByUsername(username);
-        //        User user = repository.findByUsername(username);
-//        return Optional.of(entityToDto(user));
     }
     @Transactional
     @Override
@@ -140,7 +108,6 @@ public class UserServiceImpl implements UserService {
         String accessToken = token != null && token.startsWith("Bearer ") ?
                 token.substring(7) : "undefined";
         Long id = jwtProvider.getPayload(accessToken).get("userId", Long.class);
-//        Long id = 1L;
         String deleteToken = "";
         repository.modifyTokenById(id,deleteToken);
         return repository.findById(id).get().getToken().equals("");

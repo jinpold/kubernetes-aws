@@ -49,7 +49,8 @@ public class JwtProvider {
         log.info("프론트에서 넘어온 리퀘스트 값 : {}", request.getServletPath());
         String bearerToken = request.getHeader("Authorization");
         log.info("프론트에서 넘어온 토큰 값 : {}", bearerToken);
-        return bearerToken != null && bearerToken.startsWith("Bearer ") ? bearerToken.substring(7): "undefined";
+        return bearerToken != null && bearerToken.startsWith("Bearer ") ?
+                bearerToken.substring(7): "undefined";
 
     }
     // 토큰 발급이 잘됐는지 확인하기 위한 코드 (void로 바꾸고 리턴 없앰)
@@ -62,7 +63,6 @@ public class JwtProvider {
 
         log.info("accessToken Header :" +header);
         log.info("accessToken payload :" +payload);
-
     }
     // getPayload = Claims의 집합 => secretKey 때문에 Jwt프로바이더에서 로직을 만들었음. (원래 인터셉터)
     public Claims getPayload(String token){

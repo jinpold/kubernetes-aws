@@ -24,14 +24,14 @@ export default function ArticleDetailPage (props:any){
 
     const handleDelete = () => {
         dispatch(findDeleteById(props.params.id))
-        router.replace(`${PG.ARTICLE}/list`)
+        router.replace(`${PG.ARTICLE}/myList`)
       }
 
     const handleClickTitle  = (e:any) => dispatch(titleHandler(e.target.value))
     const handleClickContent = (e:any) => dispatch(contentHandler(e.target.value))
     const handleModify = () => {
         dispatch(findModify(article))
-        router.replace(`${PG.ARTICLE}/list`)
+        router.replace(`${PG.ARTICLE}/myList/${article.boardId}`)
     }
 
     return(<>

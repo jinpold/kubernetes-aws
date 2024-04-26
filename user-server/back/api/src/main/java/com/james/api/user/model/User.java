@@ -21,6 +21,7 @@ public class User extends BaseEntity {
     private String name;
     private String phone;
     private String job;
+    private String email;
     private String token;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -28,13 +29,15 @@ public class User extends BaseEntity {
 
     @Builder(builderMethodName = "builder")
     public User(Long id, String username, String password,
-                String name, String phone, String job) {
+                String name, String phone, String job, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
         this.phone = phone;
         this.job = job;
+        this.email = email;
+
     }
     public void setPassword(String password) {
         this.password = password;

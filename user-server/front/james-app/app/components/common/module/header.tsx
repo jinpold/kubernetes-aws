@@ -17,20 +17,26 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import LinkButton, { linkButtonTitles } from '@/app/atoms/button/LinkButton';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { destroyCookie, parseCookies } from 'nookies';
-import { fineLogout } from '../../user/service/user-service';
+import { findLogout, findUserById} from '../../user/service/user-service';
+import { getUserById } from '../../user/service/user-slice';
+import { jwtDecode } from 'jwt-decode';
 
 
 function Header() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const userInfo=useSelector(getUserById);
+  let token:string|null=null;
 
   const [showProfile, setShowProfile] = useState(false)
 
   useEffect(() => {
     if (parseCookies().accessToken) {
       setShowProfile(true)
+      token=parseCookies().accessToken;
+      token? dispatch(findUserById(jwtDecode<any>(token).userId )): router.push('/');
     } else {
       setShowProfile(false)
     }
@@ -39,7 +45,7 @@ function Header() {
 
   const logoutHandler = () => {
     console.log('로그아웃 적용 전 : ' + parseCookies().accessToken)
-    dispatch(fineLogout())
+    dispatch(findLogout())
       .then((res: any) => {
 
         destroyCookie(null, 'accessToken') // 로그아웃이 성공하면 삭제
@@ -63,8 +69,8 @@ function Header() {
         </button>}
         {showProfile &&
           <div className="flex px-4 py-3 float-end">
-            <span className="block text-sm text-gray-900 dark:text-white">jinpold</span>
-            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400 mx-5">jinpold@gmail.com</span>
+            <span className="block text-sm text-gray-900 dark:text-white">{userInfo.name}</span>
+            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400 mx-5">{userInfo.username}@flowbite.com</span>
             <span 
              onClick={logoutHandler} className="block text-sm  text-gray-500 truncate dark:text-gray-400"><a href="#">Logout</a></span>
           </div>

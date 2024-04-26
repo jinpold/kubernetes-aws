@@ -91,3 +91,13 @@ export const fineLogoutAPI = async () => {
         return error
     }   
 }
+
+export const findUserInfoAPI = async () => {
+    try{
+        const response = await instance().get('/users/search')
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }
+}

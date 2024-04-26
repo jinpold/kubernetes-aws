@@ -17,14 +17,16 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String content;
     private String description;
 
     @OneToMany(mappedBy = "board" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> article;
     @Builder(builderMethodName = "builder")
-    public Board(Long id, String title, String description) {
+    public Board(Long id, String title, String description, String content) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.content = content;
     }
 }

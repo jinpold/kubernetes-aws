@@ -5,6 +5,7 @@ export interface IUsers {
     name?: string,
     phone?: string,
     job?: string,
+    email? : string,
     regDate?: string,
     modDate?: string,
     count? : number
