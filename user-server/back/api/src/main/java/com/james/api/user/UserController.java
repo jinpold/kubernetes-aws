@@ -34,6 +34,11 @@ public class UserController {
         return ResponseEntity.ok(service.save(dto));
 
     }
+    @PutMapping ("/modify")
+    public ResponseEntity<Messenger> modify(@RequestBody UserDto dto) {
+        log.info("입력받은 정보 : {}", dto );
+        return ResponseEntity.ok(service.modify(dto));
+    }
     // -----------------------------------Query ---------------------------------------
 
     @GetMapping("/list")
@@ -46,11 +51,6 @@ public class UserController {
     public ResponseEntity<UserDto> findById(@RequestParam("id") Long id) {
         log.info("입력받은 정보 : {}", id );
         return ResponseEntity.ok(service.findById(id).orElseGet(UserDto::new));
-    }
-    @PutMapping ("/modify")
-    public ResponseEntity<Messenger> modify(@RequestBody UserDto dto) {
-        log.info("입력받은 정보 : {}", dto );
-        return ResponseEntity.ok(service.modify(dto));
     }
     @DeleteMapping("/delete")
     public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
@@ -66,7 +66,6 @@ public class UserController {
     public ResponseEntity<Long> count()  {
         return ResponseEntity.ok(service.count());
     }
-
     @PostMapping("/search-name")
     public ResponseEntity<Optional<User>> findUsersByName(@RequestBody UserDto param) {
         //log.info("입력받은 정보 : {}", name );
@@ -82,5 +81,10 @@ public class UserController {
         log.info("logout request : {}", accessToken);
         var flag = service.logout(accessToken); // 토큰이 없으면 false 있으면 true
         return ResponseEntity.ok(flag);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<Optional<UserDto>> findUserInfo(@RequestHeader("Authorization") String accessToken) {
+        log.info("입력받은 정보 : {}", accessToken );
+        return ResponseEntity.ok(service.findUserInfo(accessToken));
     }
 }

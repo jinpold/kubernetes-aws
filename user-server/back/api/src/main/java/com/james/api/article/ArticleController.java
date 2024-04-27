@@ -65,5 +65,4 @@ public class ArticleController {
     public ResponseEntity<List<ArticleDto>> getArticleByBoardId(@RequestParam("id") Long boardId) {
         return ResponseEntity.ok(service.getArticleByBoardId(boardId));
     }
-
 }

@@ -30,8 +30,6 @@ export const findModify: any = createAsyncThunk(
     async (board: IBoards) => {
         console.log('findModify : ' + board)
         const data: any = await findModifyAPI(board); 
-
-       
         return data
     }
 )

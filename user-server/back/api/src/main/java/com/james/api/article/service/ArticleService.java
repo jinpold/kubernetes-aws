@@ -16,13 +16,15 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
 
     List<ArticleDto> getArticleByBoardId(Long id);
 
-    default Article dtoToEntity(ArticleDto dto, BoardRepository boardRepository, UserRepository userRepository) {
+    default Article dtoToEntity(ArticleDto dto, Board board, User user) {
         return Article.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .writer(userRepository.findById(dto.getBoardId()).orElse(null))
-                .board(boardRepository.findById(dto.getBoardId()).orElse(null))
+                .writer(user)
+                .board(board)
+//                .writer(userRepository.findById(dto.getBoardId()).orElse(null))
+//                .board(boardRepository.findById(dto.getBoardId()).orElse(null))
                 .build();
     }
     default ArticleDto entityToDto(Article ent) {

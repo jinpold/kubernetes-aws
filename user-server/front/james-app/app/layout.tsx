@@ -43,6 +43,7 @@ export default function RootLayout({
         
         <div className="mt-100">
         <ReduxProvider> 
+          {/* 조건이 참일 때 뒤에 요소 렌더링 */}
           {parseCookies().message === 'SUCCESS' && <Header/>}
           {children}
         </ReduxProvider>

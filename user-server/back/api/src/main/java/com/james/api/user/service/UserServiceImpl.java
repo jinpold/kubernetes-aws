@@ -17,13 +17,13 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
     @Transactional
     @Override
     public Messenger save(UserDto t) {
-        User ent = repository.save(dtoToEntity(t));
+        User ent = userRepository.save(dtoToEntity(t));
         System.out.println((ent instanceof User) ? "SUCCESS" : "FAILURE");
         return Messenger.builder()
                 .message((ent instanceof User) ? "SUCCESS" : "FAILURE")
@@ -31,41 +31,49 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<UserDto> findAll() {
-        return repository.findAll().stream().map(i->entityToDto(i)).toList();
+        return userRepository.findAll().stream().map(i->entityToDto(i)).toList();
     }
     @Override
     public Optional<UserDto> findById(Long id) {
-        return repository.findById(id).stream().map(i -> entityToDto(i)).findAny();
+        return userRepository.findById(id).stream().map(i -> entityToDto(i)).findAny();
     }
     @Transactional
     @Override
     public Messenger modify(UserDto userDto) {
-        repository.save(dtoToEntity(userDto));
+        Optional<User> user = userRepository.findById(userDto.getId());
+        if(user.isEmpty()){
+            return Messenger.builder()
+                    .message("FAILURE")
+                    .build();
+        }
+        user.get().setPassword(userDto.getPassword());
+        user.get().setPhone(userDto.getPhone());
+        user.get().setJob(userDto.getJob());
+        userRepository.save(user.get());
         return Messenger.builder()
-                .message("성공")
-                .status(200)
+                .message("SUCCESS")
                 .build();
     }
     @Transactional
     @Override
     public Messenger deleteById(Long id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
         return Messenger.builder().message
                 (Stream.of(id)
                         .filter(i -> existsById(i))
-                        .peek(i -> repository.deleteById(i))
+                        .peek(i -> userRepository.deleteById(i))
                         .map(i -> "SUCCESS")
                         .findAny()
                         .orElseGet(()->"FAILURE")).build();
     }
     @Override
     public boolean existsById(Long id) {
-        return repository.existsById(id);
+        return userRepository.existsById(id);
     }
 
     @Override
     public Long count() {
-        return repository.count();
+        return userRepository.count();
     }
 
     // SRP에 따라 아이디 존재여부를 프론트에서 먼저 판단하고, 넘어옴 (시큐리티)
@@ -73,12 +81,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Messenger login(UserDto dto) {
         log.info("로그인 서비스로 들어온 파라미터 : " +dto);
-        User user = repository.findUserByUsername((dto.getUsername())).get();
+        User user = userRepository.findUserByUsername((dto.getUsername())).get();
         String accessToken = jwtProvider.createToken(entityToDto(user));
 
         boolean flag = user.getPassword().equals(dto.getPassword());
         log.info("accessToken 확인용: "+accessToken);
-        repository.modifyTokenById(user.getId(), accessToken);
+        userRepository.modifyTokenById(user.getId(), accessToken);
         // 토큰을 각 섹션 (Header, payload, signature)으로 분할
 
         jwtProvider.printPayload(accessToken);
@@ -90,17 +98,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUsersByJob(String job) {
-        return repository.findUsersByJob(job);
+        return userRepository.findUsersByJob(job);
     }
 
     @Override
     public Boolean existsByUsername(String username) {
-        Integer count  = repository.existsByUsername(username);
+        Integer count  = userRepository.existsByUsername(username);
         return count ==1;
     }
     @Override
     public Optional<User> findUserByUsername(String username) {
-        return repository.findUserByUsername(username);
+        return userRepository.findUserByUsername(username);
     }
     @Transactional
     @Override
@@ -109,7 +117,16 @@ public class UserServiceImpl implements UserService {
                 token.substring(7) : "undefined";
         Long id = jwtProvider.getPayload(accessToken).get("userId", Long.class);
         String deleteToken = "";
-        repository.modifyTokenById(id,deleteToken);
-        return repository.findById(id).get().getToken().equals("");
+        userRepository.modifyTokenById(id,deleteToken);
+        return userRepository.findById(id).get().getToken().equals("");
     }
+
+    @Override
+    public Optional<UserDto> findUserInfo(String accessToken) {
+        String splitToken = accessToken.substring(7);
+        Long id = jwtProvider.getPayload(splitToken).get("id", Long.class);
+
+        return Optional.of(entityToDto(userRepository.findById(id).orElseThrow()));
+    }
+
 }

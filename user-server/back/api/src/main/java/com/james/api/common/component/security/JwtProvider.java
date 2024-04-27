@@ -1,7 +1,5 @@
 package com.james.api.common.component.security;
 import com.james.api.user.model.UserDto;
-import com.james.api.user.repository.UserRepository;
-import com.james.api.user.service.UserServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -29,16 +27,16 @@ public class JwtProvider {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
     }
 
-    public String createToken(UserDto dto) {
+    public String createToken(UserDto user) {
 
         String accessToken = Jwts.builder()
                 .issuer(issuer)
                 .signWith(secretKey)
                 .expiration(Date.from(expiredDate))
                 .claim("sub", "james")
-                .claim("username", dto.getUsername())
-                .claim("job", dto.getJob())  // 관리자(ad), 소비자
-                .claim("userId", dto.getId())
+                .claim("username", user.getUsername())
+                .claim("job", user.getJob())  // 관리자(ad), 소비자
+                .claim("userId", user.getId())
                 .compact();
 
         log.info("로그인 성공으로 발급된 토큰 : " + accessToken);
@@ -66,7 +64,12 @@ public class JwtProvider {
     }
     // getPayload = Claims의 집합 => secretKey 때문에 Jwt프로바이더에서 로직을 만들었음. (원래 인터셉터)
     public Claims getPayload(String token){
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+        try {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build().parseSignedClaims(token).getPayload();
+        } catch (Exception exception) {
+            throw new RuntimeException("Failed to parse JWT token", exception);
+        }
     }
-
 }

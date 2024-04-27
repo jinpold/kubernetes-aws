@@ -28,8 +28,9 @@ export const findUserByIdAPI = async (id: number) => {
 }
 export const findModifyAPI = async (user: IUsers) => {
     try{
+        console.log("axios 보내기 전  api 확인용"+JSON.stringify(user))
         const response = (await instance().put('/users/modify', user))
-            
+        console.log("Modify api 확인용"+JSON.stringify(response.data))
         return response.data
     }catch(error){
         console.log(error)
@@ -91,7 +92,6 @@ export const fineLogoutAPI = async () => {
         return error
     }   
 }
-
 export const findUserInfoAPI = async () => {
     try{
         const response = await instance().get('/users/search')

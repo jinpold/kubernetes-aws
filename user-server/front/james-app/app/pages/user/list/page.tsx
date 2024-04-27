@@ -46,5 +46,4 @@ const UsersPage: NextPage = () => {
     </div>
     </>)
 }
-
 export default UsersPage
