@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { parseCookies } from "nookies";
+import { findAllBoards } from "@/app/components/board/service/board-service";
 
 
 const WriterArticlePage:NextPage = () => {
@@ -69,7 +70,9 @@ const WriterArticlePage:NextPage = () => {
   //   }
   // }
 
-   useEffect(()=>{},[]) // 보드리스트가 넘어오게 해야한다.  
+  useEffect(()=>{
+    dispatch(findAllBoards())
+  },[]) 
 
 
     return(<>

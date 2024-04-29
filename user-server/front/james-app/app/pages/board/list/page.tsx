@@ -20,7 +20,7 @@ export default function BoardCards() {
 
        return (<>
        <h1> 게시판 목록 </h1>
-         {boards.map((board) => (
+         {boards.map((board:IBoards) => (
              <CardButton key={board.id} id={board.id||0} title={board.title||""} description={board.description||""}/>
          ))}
      </>);

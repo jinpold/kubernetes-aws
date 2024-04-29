@@ -35,25 +35,28 @@ function Header() {
   useEffect(() => {
     if (parseCookies().accessToken) {
       setShowProfile(true)
+      console.log('showProfile:true');
       token=parseCookies().accessToken;
-      token? dispatch(findUserById(jwtDecode<any>(token).userId )): router.push('/');
+      token? dispatch(findUserById(jwtDecode<any>(token).userId)): router.push('/');
     } else {
       setShowProfile(false)
     }
-
-  }, [parseCookies().accessToken])
+  }, [])
 
   const logoutHandler = () => {
     console.log('로그아웃 적용 전 : ' + parseCookies().accessToken)
     dispatch(findLogout())
       .then((res: any) => {
-
         destroyCookie(null, 'accessToken') // 로그아웃이 성공하면 삭제
+        console.log('destroy 쿠기 후: '+parseCookies().accessToken);
         setShowProfile(false)
-        router.push('/')
+        token=null;
+        router.push('/');
       })
       .catch((err: any) => {
         console.log('로그아웃 실행에서 에러가 발생함 : ' +err)
+      }).finally(()=>{
+        router.refresh();
       })
   }
   return (
