@@ -18,7 +18,6 @@ export const findAllUsers: any = createAsyncThunk(
 export const findUserById: any = createAsyncThunk( 
     'users/findUserById',                      
     async (id: number) => {
-        console.log('findUserById id : ' + id)
         const data: any = await findUserByIdAPI(id); 
        
         return data
@@ -27,7 +26,6 @@ export const findUserById: any = createAsyncThunk(
 export const findModify: any = createAsyncThunk( 
     'users/findModify',                      
     async (user: IUsers) => {
-        console.log('findModify : ' + user)
         const data: any = await findModifyAPI(user); 
 
        
@@ -37,18 +35,14 @@ export const findModify: any = createAsyncThunk(
 export const findDeleteById: any = createAsyncThunk( 
     'users/findDeleteById',                      
     async (id: IUsers) => {
-        console.log('findDeleteById : ' + id)
         const data: any = await findDeleteByIdAPI(id);
-       
         return data
     }
 )
 export const findCount: any = createAsyncThunk( 
     'users/findCount',                      
     async () => {
-        console.log('findCount : ')
         const data: any = await findCountAPI(); 
-
         return data
     }
 )

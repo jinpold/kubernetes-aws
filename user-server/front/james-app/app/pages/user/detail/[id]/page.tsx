@@ -16,17 +16,25 @@ import { MyTypography } from "@/app/components/common/style/cell";
 import { destroyCookie } from "nookies";
 
 export default function userDetailPage(props: any) {
-
-      const { register, handleSubmit, formState: { errors } } = useForm();
-
       const dispatch = useDispatch()
       const router = useRouter()
-      const userInfo = useSelector(getUserById);
+      const user : IUsers = useSelector(getUserById);
+
+      const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+        id : props.params.id,
+        username : user.username,
+        password : user.password,
+        name : user.name,
+        phone : user.phone,
+        job : user.job
+      },
+    })
+
+      
 
       useEffect(() => {
-            if (props.params.id != 0) {
             (findUserById(props.params.id))
-            }
       }, [])
 
       // const handleClickPw = (e: any) => dispatch(passwordHandler(e.target.value))
@@ -38,19 +46,14 @@ export default function userDetailPage(props: any) {
       //       router.replace(`${PG.USER}/list`)
       // }
 
-      const onSubmit = (user: any) => {
+      const onSubmit = (user: IUsers) => {
             dispatch(findModify(user))
               .then((res: any) => {
-                if(res?.payload==='SUCCESS'){
-                  alert("회원 정보 수정 완료");
-                  router.push(`${PG.BOARD}/list`);
-                }else if(res?.payload==='FAILURE'){
-                  alert("회원 정보 수정 실패");
-                }
+                router.push(`${PG.USER}/list`)
               })
               .catch((error: any) => {
-        
-              });
+                alert("회원 정보 수정 실패");
+              })
           }
 
       // const handleDelete = () => {
@@ -93,7 +96,7 @@ export default function userDetailPage(props: any) {
           <div className="username-wrapper">
             <input
               {...register('username', { required: true })}
-              className="username mt-2 bg-gray-100 border border-gray-300 p-2 mb-4 outline-none" type="text" value={userInfo.username} readOnly
+              className="username mt-2 bg-gray-100 border border-gray-300 p-2 mb-4 outline-none" type="text" value={user.username} readOnly
             /><br></br>
             <span className="hover-message">Please enter your correction</span>
           </div>
@@ -103,28 +106,28 @@ export default function userDetailPage(props: any) {
             placeholder="Password"
             type="text"
             name="password"
-            defaultValue={userInfo.password} />
+            defaultValue={user.password} />
           <input
             {...register('name', { required: true, maxLength: 20 })}
             className="name bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
             placeholder="Name"
             type="text"
             name="name"
-            defaultValue={userInfo.name} />
+            defaultValue={user.name} />
           <input
             {...register('phone', { required: true, maxLength: 20 })}
             className="phone bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
             placeholder="Phone"
             type="text"
             name="phone"
-            defaultValue={userInfo.phone} />
+            defaultValue={user.phone} />
           <input
             {...register('job', { required: true, maxLength: 20 })}
             className="job bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
             placeholder="Job"
             type="text"
             name="job"
-            defaultValue={userInfo.job} />
+            defaultValue={user.job} />
 
           {/* <!-- buttons --> */}
           <div className="buttons flex justify-center gap-5">

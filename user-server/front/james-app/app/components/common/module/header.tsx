@@ -33,12 +33,16 @@ function Header() {
   const [showProfile, setShowProfile] = useState(false)
 
   useEffect(() => {
+    console.log('현재 쿠키: '+parseCookies().accessToken);
+    console.log('현재 토큰: '+ token);
     if (parseCookies().accessToken) {
       setShowProfile(true)
       console.log('showProfile:true');
       token=parseCookies().accessToken;
+      console.log('쿠키 => 토큰: '+ token);
       token? dispatch(findUserById(jwtDecode<any>(token).userId)): router.push('/');
     } else {
+      console.log('showProfile:false');
       setShowProfile(false)
     }
   }, [])
@@ -75,16 +79,15 @@ function Header() {
             <span className="block text-sm text-gray-900 dark:text-white">{userInfo.name}</span>
             <span className="block text-sm  text-gray-500 truncate dark:text-gray-400 mx-5">{userInfo.username}@flowbite.com</span>
             <span 
-             onClick={logoutHandler} className="block text-sm  text-gray-500 truncate dark:text-gray-400"><a href="#">Logout</a></span>
+             className="block text-sm  text-gray-500 truncate dark:text-gray-400"
+             onClick={logoutHandler}><Link href="#">Logout</Link></span>
           </div>
         }
         <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
 
             {linkButtonTitles.map((elem) => (
-              <li key={elem.id}>
-                <LinkButton id={elem.id} title={elem.title} path={elem.path} />
-              </li>
+                <LinkButton key={elem.id} id={elem.id} title={elem.title} path={elem.path} />
             ))}
           </ul>
         </div>

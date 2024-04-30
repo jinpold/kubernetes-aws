@@ -61,13 +61,5 @@ export default function UserColumns(): GridColDef [] {
             headerName: '직업',
             renderCell: ({row}:CellType) => <Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{row.job}</Typography>
         }
-        // {
-        //     flex : 0.04,
-        //     minWidth : 30,
-        //     sortable : false,
-        //     field : 'email',
-        //     headerName : '이메일',
-        //     renderCell : ({row}:CellType) => <Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{row.email}</Typography>
-        // }
     ]
 }

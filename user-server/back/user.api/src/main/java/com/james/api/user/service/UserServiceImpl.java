@@ -37,24 +37,16 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDto> findById(Long id) {
         return userRepository.findById(id).stream().map(i -> entityToDto(i)).findAny();
     }
+
     @Transactional
     @Override
     public Messenger modify(UserDto userDto) {
-        Optional<User> user = userRepository.findById(userDto.getId());
-        if(user.isEmpty()){
-            return Messenger.builder()
-                    .message("FAILURE")
-                    .build();
-        }
-        user.get().setPassword(userDto.getPassword());
-        user.get().setPhone(userDto.getPhone());
-        user.get().setJob(userDto.getJob());
-        userRepository.save(user.get());
+        userRepository.save(dtoToEntity(userDto));
         return Messenger.builder()
                 .message("SUCCESS")
                 .build();
     }
-    @Transactional
+
     @Override
     public Messenger deleteById(Long id) {
         userRepository.deleteById(id);
@@ -110,7 +102,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
-    @Transactional
+
     @Override
     public Boolean logout(String token) {
         String accessToken = token != null && token.startsWith("Bearer ") ?
