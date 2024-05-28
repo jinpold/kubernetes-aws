@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
+@Builder
 @ToString(exclude = {"article", "id"})
 @AllArgsConstructor
 public class User extends BaseEntity {
@@ -20,24 +21,21 @@ public class User extends BaseEntity {
     private String username;
     private String password;
     private String name;
+    private String age;
+    private String email;
+    private String address;
     private String phone;
-    private String job;
+    private String asset;
+    private String mbti;
+    @Column(name = "Investment_propensity")
+    private String InvestmentPropensity;
     private String token;
+    private String job;
+
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> article;
 
-    @Builder(builderMethodName = "builder")
-    public User(Long id, String username, String password,
-                String name, String phone, String job) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.phone = phone;
-        this.job = job;
-
-    }
     public void setPassword(String password) {
         this.password = password;
     }

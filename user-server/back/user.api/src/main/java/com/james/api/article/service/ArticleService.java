@@ -2,14 +2,9 @@ package com.james.api.article.service;
 import com.james.api.article.model.Article;
 import com.james.api.article.model.ArticleDto;
 import com.james.api.board.model.Board;
-import com.james.api.board.repository.BoardRepository;
-import com.james.api.common.component.Messenger;
 import com.james.api.common.service.CommandService;
 import com.james.api.common.service.QueryService;
 import com.james.api.user.model.User;
-import com.james.api.user.model.UserDto;
-import com.james.api.user.repository.UserRepository;
-
 import java.util.*;
 
 public interface ArticleService extends CommandService<ArticleDto>, QueryService<ArticleDto> {

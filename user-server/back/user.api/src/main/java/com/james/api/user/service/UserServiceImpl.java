@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
-
+    @Transactional
     @Override
     public Boolean logout(String token) {
         String accessToken = token != null && token.startsWith("Bearer ") ?

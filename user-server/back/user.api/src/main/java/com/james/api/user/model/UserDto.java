@@ -1,5 +1,6 @@
 package com.james.api.user.model;
 import com.james.api.article.model.Article;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +20,17 @@ public class UserDto {
     private String username;
     private String password;
     private String name;
+    private String age;
+    private String email;
+    private String address;
     private String phone;
+    private String asset;
+    private String mbti;
+    private String InvestmentPropensity;
     private String job;
-    private List<Article> articles;
     private String regDate;
     private String modDate;
     private String token;
+    private List<Article> articles;
+
 }

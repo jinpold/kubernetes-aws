@@ -4,6 +4,11 @@ import com.james.api.common.service.CommandService;
 import com.james.api.common.service.QueryService;
 import com.james.api.user.model.User;
 import com.james.api.user.model.UserDto;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.Optional;
 public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
     // command
@@ -22,22 +27,37 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .username(dto.getUsername())
                 .password(dto.getPassword())
                 .name(dto.getName())
+                .age(dto.getAge())
+                .email(dto.getEmail())
+                .address(dto.getAddress())
                 .phone(dto.getPhone())
+                .asset(dto.getAsset())
+                .mbti(dto.getMbti())
+                .InvestmentPropensity(dto.getInvestmentPropensity())
                 .job(dto.getJob())
                 .build();
     }
+
+
     default UserDto entityToDto(User ent) {
         return UserDto.builder()
                 .id(ent.getId())
                 .username(ent.getUsername())
                 .password(ent.getPassword())
                 .name(ent.getName())
+                .age(ent.getAge())
+                .email(ent.getEmail())
+                .address(ent.getAddress())
                 .phone(ent.getPhone())
+                .asset(ent.getAsset())
+                .mbti(ent.getMbti())
+                .InvestmentPropensity(ent.getInvestmentPropensity())
                 .job(ent.getJob())
                 .regDate(ent.getRegDate().toString())
                 .modDate(ent.getModDate().toString())
                 .build();
     }
+
 
 
 }

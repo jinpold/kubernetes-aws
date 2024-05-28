@@ -6,6 +6,7 @@ import com.james.api.user.repository.UserRepository;
 import com.james.api.user.service.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +77,7 @@ public class UserController {
         service.findUsersByJob(job);
         return ResponseEntity.ok(new Messenger());
     }
+
     @GetMapping("/logout")
     public ResponseEntity<Boolean> logout(@RequestHeader("Authorization") String accessToken){
         log.info("logout request : {}", accessToken);

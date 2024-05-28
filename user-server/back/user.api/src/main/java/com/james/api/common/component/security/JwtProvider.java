@@ -35,7 +35,7 @@ public class JwtProvider {
                 .expiration(Date.from(expiredDate))
                 .claim("sub", "james")
                 .claim("username", user.getUsername())
-                .claim("job", user.getJob())  // 관리자(ad), 소비자
+                .claim("job", user.getJob())  // 관리자(ad), 소비자 (role)
                 .claim("userId", user.getId())
                 .compact();
 
