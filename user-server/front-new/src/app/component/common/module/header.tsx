@@ -53,7 +53,7 @@ function Header() {
           {showProfile &&
             <button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
               <span className="sr-only">Open user menu</span>
-              <img className="w-20 h-20 rounded-full" src="/img/user/profile.jpg" data-popover-target="profile-menu" />
+              <img className="w-20 h-20 rounded-full" src="/img/user/profile.jpg" data-popover-target="profile-menu"  onClick={() => router.push(`/`)} />
             </button>
           }
 
@@ -61,7 +61,7 @@ function Header() {
           {showProfile &&
             <div className="px-4 py-3 visible float-end ">
               <ul className="py-2" aria-labelledby="user-menu-button">
-                <li>
+                {/* <li>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                 </li>
 
@@ -70,7 +70,7 @@ function Header() {
                 </li>
                 <li>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-                </li>
+                </li> */}
                 <li>
                   <span onClick={logoutHandler} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"><a href="#">Sign out</a></span>
                 </li>

@@ -15,7 +15,7 @@ const Home:NextPage=()=> {
         <div className="text-center content-center bg-center bg-bg_img bg-cover h-[70%]">
 
           <span className="text-gray-300 text-6xl font-bold font-['Inter'] ">Project JSggun!<br /></span>
-          <span className="text-gray-400 text-3xl font-['Inter']">test page입니다!</span><br />
+          <span className="text-gray-400 text-2xl font-['Inter']"> hello!</span><br />
 
           <div className="mt-[15%]">
             <button className="w-44 h-16 bg-gray-950 rounded-lg hover:bg-pink-700" onClick={()=>router.push(PG.USER+"/login")}>

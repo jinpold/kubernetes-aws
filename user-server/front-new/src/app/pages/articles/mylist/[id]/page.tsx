@@ -49,9 +49,7 @@ export default function MyListPage (props:any) {
           );
         })}
       </div>
-      <td>
-        <MoveButton text={"글쓰기"} path={`${PG.ARTICLE}/save`}/>
-        </td>
+      
     </div>
         <h2> 게시글 수 :{allArticles.length} </h2> 
         <Box sx={{ height: "100%", width: '100%' }}>
@@ -68,7 +66,11 @@ export default function MyListPage (props:any) {
         pageSizeOptions={[5, 10, 20]} 
         checkboxSelection
         disableRowSelectionOnClick
-      />}
+      />
+      }
     </Box>
+    <td>
+        <MoveButton text={"글쓰기"} path={`${PG.ARTICLE}/save`}/>
+        </td>
     </>)
 }

@@ -3,6 +3,8 @@ export interface BoardColumn{
     title?: string,
     content?: string,
     description?: string,
-    regDate?: string;
+    img? : any,
+    src?: any,
+    regDate?: string,
     modDate?: string;
 }

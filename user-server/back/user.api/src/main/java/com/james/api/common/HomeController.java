@@ -19,5 +19,10 @@ public class HomeController {
         Map<String,String> respMap = new HashMap<>();
         respMap.put("name", "환영합니다." + name);
         return respMap;
+
+//         Print out the articles for demonstration
+//            for (Crawler crawler : articles) {
+//                System.out.println(crawler);
+//            }
     }
 }

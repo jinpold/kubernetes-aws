@@ -8,7 +8,7 @@ export interface IUser {
     email?: string;
     address?: string;
     phone?: string;
-    asset?: string;
+    asset?: number;
     mbti?: string;
     investmentPropensity?: string;
     job?: string;

@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     private String email;
     private String address;
     private String phone;
-    private String asset;
+    private Long asset;
     private String mbti;
     @Column(name = "Investment_propensity")
     private String InvestmentPropensity;

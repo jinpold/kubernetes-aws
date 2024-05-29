@@ -35,20 +35,20 @@ export default function Join2() {
 
   const [rrn, setRrn] = useState('');
 
-  const handleRrnChange = (event:any) => {
-    let input = event.target.value.replace(/\D/g, ''); // 숫자만 입력받기
-    if (input.length > 13) input = input.slice(0, 13); // 최대 13자리로 제한
+  // const handleRrnChange = (event:any) => {
+  //   let input = event.target.value.replace(/\D/g, ''); // 숫자만 입력받기
+  //   if (input.length > 13) input = input.slice(0, 13); // 최대 13자리로 제한
 
-    let visibleRrn = input.slice(0, 6); // 앞 6자리
-    if (input.length > 6) {
-      visibleRrn += '-' + input.slice(6, 7); // 뒤 첫 자리
-      if (input.length > 7) {
-        visibleRrn += '*'.repeat(input.length - 7); // 나머지 자리 숨기기
-      }
-    }
+  //   let visibleRrn = input.slice(0, 6); // 앞 6자리
+  //   if (input.length > 6) {
+  //     visibleRrn += '-' + input.slice(6, 7); // 뒤 첫 자리
+  //     if (input.length > 7) {
+  //       visibleRrn += '*'.repeat(input.length - 7); // 나머지 자리 숨기기
+  //     }
+  //   }
 
-    setRrn(visibleRrn);
-  };
+  //   setRrn(visibleRrn);
+  // };
 
 
   return (
@@ -92,7 +92,7 @@ export default function Join2() {
                 <input
                   className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="text"
-                  placeholder="Enter your RRN (주민번호 특수 기호 생략)" name="age" onChange={handleUsername}
+                  placeholder="Enter your 주민번호 기입 (특수 기호 생략)" name="age" onChange={handleUsername}
                 />
                 <input
                   className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"

@@ -29,7 +29,8 @@ export default function UserDetailPage({params}:any) {
     dispatch(modifyUserById(data))
       .then((res:any)=>{
         alert('user information modify success.' + res.payload.id)
-        router.push(`${PG.USER}/detail/${res.payload.id}`)
+        location.reload();
+        // router.push(`${PG.USER}/detail/${res.payload.id}`)
       })
       .catch((error:any)=>{
         alert('user information modify fail.')

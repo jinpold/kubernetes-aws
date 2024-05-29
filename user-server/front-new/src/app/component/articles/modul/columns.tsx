@@ -58,15 +58,7 @@ export default function ArticleColumns(): GridColDef[] {
             sortable: false,
             field: 'modifyDate',
             headerName: '수정일자',
-            renderCell: ({row}:CellType) => <Typography textAlign="center" sx={{fontSize:"1.5rem"}}>{row.modDate}</Typography>
-        },
-        {
-            flex: 0.04,
-            minWidth: 30,
-            sortable: false,
-            field: 'modify',
-            headerName: '수정',
-            renderCell: ({row}:CellType) => <Link href={""}> <Typography textAlign="center" sx={{fontSize:"1.5rem"}}>수정</Typography></Link>
+            renderCell: ({row}:CellType) => <Typography textAlign="center" sx={{fontSize:"1.2rem"}}>{row.modDate}</Typography>
         },
         {
             flex: 0.04,
@@ -75,15 +67,14 @@ export default function ArticleColumns(): GridColDef[] {
             field: 'delete',
             headerName: 'DELETE',
             renderCell: ({ row }: CellType) =>
-                <button className="btn overflow-hidden relative w-full h-full bg-blue-500 text-white rounded-xl font-bold uppercase -- before:block before:absolute before:h-full before:w-1/2 before:rounded-full
-            before:bg-pink-400 before:top-0 before:left-1/4 before:transition-transform before:opacity-0 before:hover:opacity-100 hover:text-200 hover:before:animate-ping transition-all duration-300"
+                <button className="btn overflow-hidden relative w-20 h-10 bg-gray-600 text-white rounded-md font-medium uppercase shadow-md transition-transform duration-200 transform hover:scale-105"
                     onClick={() => {
                         alert("article을 삭제합니다.")
                         console.log("delete article id : {}", row.id)
                         dispatch(findDeleteById(row.id))
                         location.reload();
                     }
-                    }> DELETE</button>
+                    }>DELETE</button>
         }
     ]
 }

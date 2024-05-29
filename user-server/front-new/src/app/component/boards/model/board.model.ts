@@ -3,6 +3,8 @@ export interface IBoards {
     title?: string,
     content?: string,
     description?: string,
+    img? : any,
+    src?: any,
     regDate?: string,
     modDate?: string,
     count?: number

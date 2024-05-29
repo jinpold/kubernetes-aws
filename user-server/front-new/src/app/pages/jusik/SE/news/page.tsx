@@ -1,18 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, CSSProperties } from 'react';
 import axios from 'axios';
 
-export default function SeChartPage() {
-  const [news, setNews] = useState([]);
+interface News {
+  imgLink: string;
+  title: string;
+  content: string;
+  imgSrc: string;
+}
+
+const NewsPage: React.FC = () => {
+  const [news, setNews] = useState<News[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get('/api/news'); // 실제 API 엔드포인트로 변경 필요
+        const response = await axios.get('http://localhost:8080/api/news/list'); // Change to actual API endpoint
+        console.log(response.data); // 응답 데이터 확인
         setNews(response.data);
       } catch (error) {
-        console.error('뉴스 데이터를 가져오는 중 오류 발생:', error);
+        setError('Failed to load news data');
+        console.error('Error fetching news data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -20,22 +33,97 @@ export default function SeChartPage() {
   }, []);
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#f0f0f0', color: '#333', maxWidth: '800px', margin: 'auto' }}>
-      <div>
-        <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>NEWS</h1>
-      </div>
-      <div className="news-container" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '10px', backgroundColor: '#fff', height: '600px', overflowY: 'scroll' }}>
-        {news.length > 0 ? (
-          news.map((item, index) => (
-            <div key={index} style={{ marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '18px', marginBottom: '10px' }}>{}</h2>
-              <p style={{ fontSize: '14px', color: '#666' }}>{}</p>
-            </div>
-          ))
+    <div style={styles.container}>
+      <h1 style={styles.header}>STOCK NEWS</h1>
+      <div style={styles.newsContainer}>
+        {loading ? (
+          <p>Loading news...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : news.length > 0 ? (
+          <div style={styles.newsGrid}>
+            {news.map((item, index) => (
+              <div key={index} style={styles.newsCard}>
+                <a href={item.imgLink} target="_blank" rel="noopener noreferrer" style={styles.imageLink}>
+                  <img src={item.imgSrc} alt={item.title} style={styles.image} />
+                </a>
+                <div style={styles.cardContent}>
+                  <a href={item.imgLink} target="_blank" rel="noopener noreferrer" style={styles.title}>
+                    {item.title}
+                  </a>
+                  <p style={styles.content}>{item.content}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
-          <p>뉴스 데이터를 불러오는 중...</p>
+          <p>No news available.</p>
         )}
       </div>
     </div>
   );
 }
+
+const styles: { [key: string]: CSSProperties } = {
+  container: {
+    padding: '20px',
+    backgroundColor: '#f0f0f0',
+    color: '#333',
+    maxWidth: '1200px',
+    margin: 'auto'
+  },
+  header: {
+    textAlign: 'center',
+    marginBottom: '20px'
+  },
+  newsContainer: {
+    border: '1px solid #ccc',
+    padding: '20px',
+    borderRadius: '10px',
+    backgroundColor: '#fff',
+    overflowY: 'auto'
+  },
+  newsGrid: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center'
+  },
+  newsCard: {
+    width: '300px',
+    border: '1px solid #ddd',
+    borderRadius: '10px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  imageLink: {
+    display: 'block'
+  },
+  image: {
+    width: '100%',
+    height: 'auto',
+    objectFit: 'cover'
+  },
+  cardContent: {
+    padding: '15px',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1
+  },
+  title: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    color: '#000',
+    textDecoration: 'none',
+    marginBottom: '10px'
+  },
+  content: {
+    fontSize: '14px',
+    color: '#666',
+    flexGrow: 1
+  }
+};
+
+export default NewsPage;

@@ -25,7 +25,7 @@ public class UserDto {
     private String email;
     private String address;
     private String phone;
-    private String asset;
+    private Long asset;
     private String mbti;
     private String InvestmentPropensity;
     private String job;

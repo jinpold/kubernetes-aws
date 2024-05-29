@@ -26,6 +26,28 @@ public class UserServiceImpl implements UserService {
         String investmentPropensity = getInvestmentPropensityByMbti(userDto.getMbti()); // MBTI에 따른 투자 성향 설정
         User ent = dtoToEntity(userDto); // UserDto를 User 엔티티로 변환
         ent.setInvestmentPropensity(investmentPropensity); // 투자 성향 설정
+//         //asset 컬럼이 null이면 0으로 설정
+        if (ent.getAsset() == null) {
+            ent.setAsset(0L);
+        }
+
+        // sex 컬럼이 null이면 age 값의 7번째 자리에 따라 설정
+        if (ent.getSex() == null) {
+            String age = userDto.getAge();
+            if (age != null && age.length() >= 7) {
+                char seventhChar = age.charAt(6);
+                if (seventhChar == '1' || seventhChar == '3' || seventhChar == '5' || seventhChar == '7') {
+                    ent.setSex("male");
+                } else {
+                    ent.setSex("female");
+                }
+            } else {
+                ent.setSex("unknown"); // age 값이 유효하지 않으면 기본값 설정
+            }
+        }
+
+
+
         User savedUser = userRepository.save(ent);  // User 엔티티 저장
         boolean isSuccess = savedUser != null && savedUser.getId() != null;// 저장된 User 엔티티가 null이 아닌지 확인
         return Messenger.builder()

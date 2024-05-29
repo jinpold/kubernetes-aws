@@ -7,6 +7,7 @@ export const initialState: IBoards = {
     title: "",
     content: "",
     description: "",
+
     count: 0,
     regDate: "",
     modDate: ""
