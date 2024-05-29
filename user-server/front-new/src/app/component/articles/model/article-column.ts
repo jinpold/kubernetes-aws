@@ -1,5 +1,5 @@
-export interface IArticle {
-    id?: number,
+export interface ArticleColumn{
+    id?: string;
     title?: string,
     content?: string,
     writerId?: number,

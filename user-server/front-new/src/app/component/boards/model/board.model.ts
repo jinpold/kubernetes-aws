@@ -1,10 +1,11 @@
-
-interface IBoard {
+export interface IBoards {
     id?: number,
     title?: string,
+    content?: string,
     description?: string,
+    regDate?: string,
     modDate?: string,
-    regDate?: string
-
-
+    count?: number
+    //array?: IBoards[],
+    //json?: {}
 }

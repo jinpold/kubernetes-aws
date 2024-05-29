@@ -1,9 +1,13 @@
+import { IBoards } from "../model/board.model";
 
-export const initialState: IBoard = {
+
+
+export const initialState: IBoards = {
     id: 0,
-    title: '',
-    description: '',
-    modDate: '',
-    regDate: ''
-
+    title: "",
+    content: "",
+    description: "",
+    count: 0,
+    regDate: "",
+    modDate: ""
 }

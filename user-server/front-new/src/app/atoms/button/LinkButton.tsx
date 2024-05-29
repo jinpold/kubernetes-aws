@@ -17,7 +17,7 @@ export const linkButtonTitles = [
     { id: 0, title: 'Home', path: '/' },
     { id: 1, title: 'join', path: `${PG.USER}/join` },
     // { id: 2, title: 'counter', path: `${PG.DEMO}/counter` },
-    // { id: 3, title: 'Customer service', path: `${PG.BOARD}/list` },
+    { id: 3, title: 'Customer service', path: `${PG.BOARD}/list` },
     // { id:5, title: 'article list', path: `${PG.ARTICLE}/list` },
     {id: 4, title: 'My list', path: `${PG.USER}/detail/${token ? jwtDecode<any>(token).id:0}` }
 ]

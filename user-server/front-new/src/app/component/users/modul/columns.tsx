@@ -63,6 +63,14 @@ export default function userColumns(): GridColDef[] {
             flex: 0.04,
             minWidth: 30,
             sortable: false,
+            field: 'sex',
+            headerName: 'sex',
+            renderCell: ({ row }: CellType) => MyTypography(row.sex, "1.5rem")
+        },
+        {
+            flex: 0.04,
+            minWidth: 30,
+            sortable: false,
             field: 'email',
             headerName: 'EMAIL',
             renderCell: ({ row }: CellType) => MyTypography(row.email, "1.5rem")

@@ -1,65 +1,61 @@
-import  instance  from '@/app/component/common/configs/axios-config'
+import instance from "../../common/configs/axios-config"
+import { IBoards } from "../model/board.model"
 
-export const AllBoardsAPI = async (page: number) => {
-    try {
-        const response = await instance().get('/boards/list', {
-            params: { page, limit: 10 } //1page 당 10 게시글
-        });
+
+export const findAllBoardsAPI = async (page: number) =>{     // axios = 동기식, 
+    try{                                                        // axios를 thunk로 감싸면 비동기가 된다
+        const response = await instance().get('/boards/list',{
+            params: {page, size:10, limit: 10}
+        })
         return response.data
-    } catch (error) {
-        console.log(error + " fetchAllBoardsAPI EERR!!!")
+    }catch(error){
+        console.log(error)
+        return error
+    }
+    
+}
+
+export const findBoardByIdAPI = async (id: number) =>{      
+    try{                                                      
+        const response = await instance().get('/boards/detail',{params: {id}})
+        return response.data
+    }catch(error){
+        console.log(error)
         return error
     }
 }
 
-export const findBoardsAPI = async (id: number) => {
-    try {
-        const response = await instance().get('/boards/detail', {
-            params: { id }
-        });
+export const findModifyAPI = async (board: IBoards) => {
+    try{
+        const response = (await instance().put('/boards/modify', board))
+            
         return response.data
-    } catch (error) {
-        console.log(error, " findBoardsAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
-
+    
 }
-
-
-export const countBoardsAPI = async () => {
-    try {
-        const response = await instance().get('/boards/count');
-        console.log("response ", response)
+export const findDeleteByIdAPI = async (deleteId: IBoards) =>{    
+    try{                                                        
+        const response = await instance().delete('/boards/delete',{
+            params: {deleteId}
+        })
         return response.data
-    } catch (error) {
-        console.log(error, " findBoardsAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
-
 }
-
-
-export const modifyBoardsAPI = async (params: IBoard) => {
-    try {
-        const response = await instance().put('/boards/modify',params);
+export const findCountAPI = async () =>{    
+    try{                                                        
+        const response = await instance().get('/boards/count',{
+            params: {}
+        })
         return response.data
-    } catch (error) {
-        console.log(error, " modifyBoardsAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
-
-}
-
-
-export const deleteBoardsAPI = async (id: number) => {
-    try {
-        const response = await instance().delete('/boards/dalete', {
-            params: { id }
-        });
-        return response.data
-    } catch (error) {
-        console.log(error, " deleteBoardsAPI EERR!!!")
-        return error
-    }
-
+    
 }

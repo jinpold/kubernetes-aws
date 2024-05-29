@@ -1,97 +1,87 @@
-import  instance  from '@/app/component/common/configs/axios-config'
+import instance from "../../common/configs/axios-config"
+import { IArticle } from "../model/article.model"
 
-export const AllArticlesAPI = async (page: number) => {
-    try {
-        const response = await instance().get('/articles/list', {
-            params: { page:20, limit: 20 } //1page 당 10 게시글
+
+
+export const findAllArticlesAPI = async (page: number) =>{     // axios = 동기식, 
+    try{                                                        // axios를 thunk로 감싸면 비동기가 된다
+        const response = await instance().get('/articles/list',{
+            params: {page, size:20, limit: 20}
         })
         return response.data
-    } catch (error) {
-        console.log(error + " AllArticlesAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
+    
 }
 
-export const mylistArticlesAPI = async (id: number) => {
-    try {
-        const response = await instance().get('/articles/mylist', {
-            params: {id} //1page 당 10 게시글
+export const findArticleByIdAPI = async (id: number) =>{ 
+    try{                                                       
+        const response = await instance().get('/articles/detail',{
+            params: {id}
         })
         return response.data
-    } catch (error) {
-        console.log(error + " mylistArticlesAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
 }
 
-export const findArticlesAPI = async (id: number) => {
-    try {
-        const response = await instance().get('/articles/detail', {
-            params: { id }
-        })
-        console.log("findArticlesAPI response : " + response.data)
+export const findModifyAPI = async (article: IArticle) => {
+    try{
+        const response = (await instance().put('/articles/modify', article))
+            
         return response.data
-    } catch (error) {
-        console.log(error + " findArticlesAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
+    
 }
-
-export const countArticlesAPI = async () => {
-    try {
-        const response = await instance().get('/articles/count')
-        console.log("count response " + response.data)
-        return response.data
-    } catch (error) {
-        console.log(error + " countArticlesAPI EERR!!!")
-        return error
-    }
-
-}
-
-export const modifyArticlesAPI = async (props: IArticle) => {
-    try {
-        const response = await instance().put('/articles/modify',props)
-        console.log("response " + JSON.stringify(response.data))
-        return response.data
-    } catch (error) {
-        console.log(error + " modifyArticlesAPI EERR!!!")
-        return error
-    }
-}
-
-
-export const deleteArticlesAPI = async (id: number) => {
-    try {
-        const response = await instance().delete('/articles/delete', {
-            params: { id }
+export const findDeleteByIdAPI = async (id: number) =>{    
+    try{                                                        
+        const response = await instance().delete('/articles/delete',{
+            params: {id}
         })
         return response.data
-    } catch (error) {
-        console.log(error + " deleteArticlesAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
+    
 }
-
-export const saveArticleAPI = async (props: any) => {
-    try {
-        const response = await instance().post('/articles/save', props)
-        console.log("response ", JSON.stringify(response.data))
-        return response.data
-    } catch (error) {
-        console.log(error, " saveArticleAPI EERR!!!")
-        return error
-    }
-}
-
-export const findByBoardIdAPI = async (id: number) => {
-    try {
-        const response = await instance().get('/articles/card', {
-            params: { id }
+export const findCountAPI = async () =>{    
+    try{                                                        
+        const response = await instance().get('/articles/count',{
+            params: {}
         })
         return response.data
-    } catch (error) {
-        console.log(error + " findByBoardIdAPI EERR!!!")
+    }catch(error){
+        console.log(error)
         return error
     }
+
+}
+export const findBoardMyListAPI = async (id:number) =>{    
+    try{                                                        
+        const response = await instance().get('/articles/myList',{
+            params: {id}
+        })
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }   
+}
+
+export const findArticlePostAPI = async (article:IArticle) =>{    
+    try{                                                        
+        const response = await instance().post('/articles/save', article)
+
+        return response.data
+    }catch(error){
+        console.log(error)
+        return error
+    }   
 }

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { joinUser } from "@/app/component/users/service/user.service";
 import { useSelector } from "react-redux";
 import { getSingleUser } from "@/app/component/users/service/user.slice";
+import { PG } from "@/app/component/common/enums/PG";
 
 export default function Join2() {
 
@@ -29,14 +30,25 @@ export default function Join2() {
   const handleSubmit = () => {
     console.log(user)
     dispatch(joinUser(user))
+    router.push(`${PG.USER}/login`)
   }
 
-  useEffect(() => {
-    if (join === 'SUCCESS') {
-      router.push(`/`)
-    }
-  }, [join, router])
+  const [rrn, setRrn] = useState('');
 
+  const handleRrnChange = (event:any) => {
+    let input = event.target.value.replace(/\D/g, ''); // 숫자만 입력받기
+    if (input.length > 13) input = input.slice(0, 13); // 최대 13자리로 제한
+
+    let visibleRrn = input.slice(0, 6); // 앞 6자리
+    if (input.length > 6) {
+      visibleRrn += '-' + input.slice(6, 7); // 뒤 첫 자리
+      if (input.length > 7) {
+        visibleRrn += '*'.repeat(input.length - 7); // 나머지 자리 숨기기
+      }
+    }
+
+    setRrn(visibleRrn);
+  };
 
 
   return (
@@ -54,7 +66,7 @@ export default function Join2() {
           <div className=" flex flex-col items-center">
             <div className="text-center">
               <h1 className="text-2xl xl:text-4xl font-extrabold text-indigo-950">
-                Student Sign up
+                 Sign up
               </h1>
               <p className="text-[12px] text-gray-500">
                 Hey enter your details to create your account
@@ -79,9 +91,34 @@ export default function Join2() {
                 />
                 <input
                   className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  type="text"
+                  placeholder="Enter your RRN (주민번호 특수 기호 생략)" name="age" onChange={handleUsername}
+                />
+                <input
+                  className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  type="text"
+                  placeholder="Enter your email" name="email" onChange={handleUsername}
+                />
+                <input
+                  className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  type="text"
+                  placeholder="Enter your address" name="address" onChange={handleUsername}
+                />
+                <input
+                  className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="tel"
                   placeholder="Enter your phone" name="phone" onChange={handleUsername}
                 />
+                <select
+                 className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 text-gray-500 sm:text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                 name="mbti" onChange={handleUsername}>
+                 <option value="">Select your MBTI</option>
+                 <option value="ISTJ">ISTJ</option>
+                 <option value="ENFP">ENFP</option>
+                 <option value="INTP">INTP</option>
+                 <option value="ISFJ">ISFJ</option>
+                 <option value="ESTP">ESTP</option>
+                </select>
                 <button className="mt-5 tracking-wide font-semibold bg-indigo-950 text-gray-100 w-full py-4 rounded-lg hover:bg-pink-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                 onClick={handleSubmit}>
                   <span className="ml-3">Sign Up</span>

@@ -36,9 +36,9 @@ export const countUsersAPI = async () => {
     }
 }
 
-export const modifyUserByIdAPI = async (user: IUser) => {
+export const modifyUserByIdAPI = async (props: any) => {
     try {
-        const response = await instance().put('/users/modify', user)
+        const response = await instance().put('/users/modify', props)
         console.log("response ", JSON.stringify(response.data))
         return response.data
     } catch (error) {

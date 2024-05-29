@@ -2,6 +2,7 @@ package com.james.api.common.component.security;
 import com.james.api.user.model.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class JwtProvider {
 
     public String createToken(UserDto user) {
 
+        //Access Token
         String accessToken = Jwts.builder()
                 .issuer(issuer)
                 .signWith(secretKey)
@@ -41,7 +43,9 @@ public class JwtProvider {
 
         log.info("로그인 성공으로 발급된 토큰 : " + accessToken);
         return accessToken;
+
     }
+
 
     public String extractTokenFromHeader(HttpServletRequest request) {
         log.info("프론트에서 넘어온 리퀘스트 값 : {}", request.getServletPath());

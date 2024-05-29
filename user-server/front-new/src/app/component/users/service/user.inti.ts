@@ -7,6 +7,7 @@ export const initialState: IUser = {
     password: "",
     name: "",
     age: "",
+    sex: "",
     email: "",
     address: "",
     phone: "",

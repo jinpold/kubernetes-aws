@@ -22,12 +22,33 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Messenger save(UserDto t) {
-        User ent = userRepository.save(dtoToEntity(t));
-        System.out.println((ent instanceof User) ? "SUCCESS" : "FAILURE");
+    public Messenger save(UserDto userDto) {
+        String investmentPropensity = getInvestmentPropensityByMbti(userDto.getMbti()); // MBTI에 따른 투자 성향 설정
+        User ent = dtoToEntity(userDto); // UserDto를 User 엔티티로 변환
+        ent.setInvestmentPropensity(investmentPropensity); // 투자 성향 설정
+        User savedUser = userRepository.save(ent);  // User 엔티티 저장
+        boolean isSuccess = savedUser != null && savedUser.getId() != null;// 저장된 User 엔티티가 null이 아닌지 확인
         return Messenger.builder()
-                .message((ent instanceof User) ? "SUCCESS" : "FAILURE")
+                .message(isSuccess ? "SUCCESS" : "FAILURE")
                 .build();
+    }
+
+    // MBTI에 따른 투자 성향을 반환하는 메서드
+    private String getInvestmentPropensityByMbti(String mbti) {
+        switch (mbti) {
+            case "ISTJ":
+                return "보수적";
+            case "ISFJ":
+                return "신중함";
+            case "ENFP":
+                return "공격적";
+            case "ESTP":
+                return "적극적";
+            case "INTP":
+                return "중립적";
+            default:
+                return "";
+        }
     }
     @Override
     public List<UserDto> findAll() {
@@ -41,10 +62,19 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Messenger modify(UserDto userDto) {
-        userRepository.save(dtoToEntity(userDto));
-        return Messenger.builder()
-                .message("SUCCESS")
-                .build();
+        User user = userRepository.findById(userDto.getId()).get();
+        if (userDto.getUsername() != null && !userDto.getUsername().equals("")) {
+            user.setUsername(userDto.getUsername());
+        }
+        user.setName(userDto.getName());
+        user.setPassword(userDto.getPassword());
+        user.setAddress(userDto.getAddress());
+        user.setPhone(userDto.getPhone());
+        userRepository.save(user);
+
+        return userRepository.findById(userDto.getId()).get().equals(user) ?
+                Messenger.builder().message("SUCCESS").build() :
+                Messenger.builder().message("FAILURE").build();
     }
 
     @Override

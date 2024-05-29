@@ -1,107 +1,95 @@
 'use client'
-
-
-import MoveBotton from "@/app/atoms/button/MoveButton";
-import articleColumns from "@/app/component/articles/modul/columns";
-import { findByBoard, fetchAllArticles, findCountArticle } from "@/app/component/articles/service/article.service";
-import { getAllArticles, getCountArticle } from "@/app/component/articles/service/article.slice";
-import { findBoardById } from "@/app/component/boards/service/board.service";
-import { getSingleBoard } from "@/app/component/boards/service/board.slice";
-import { PG } from "@/app/component/common/enums/PG";
-import { MyTypography } from "@/app/component/common/style/cell";
-import { DataGrid } from "@mui/x-data-grid";
+import { useState, useEffect } from "react"
+import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from "next";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
 
-
+import React from "react";
+import MoveButton from "@/app/atoms/button/MoveButton";
+import { getAllArticles, getCount } from "@/app/component/articles/service/article.slice";
+import { findAllArticles, findCount } from "@/app/component/articles/service/article.service";
+import { PG } from "@/app/component/common/enums/PG";
+import ArticleColumns from "@/app/component/articles/modul/columns";
 
 const cards = [
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/mountain-nightview.jpg",
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/autumn.jpg",
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/babypinetree.jpg",
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/beach.jpg",
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/purpleflowers.jpg",
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/starrysky.jpg",
-    "https://www.tailwindtap.com/assets/components/horizontal-carousel/lake.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/mountain-nightview.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/autumn.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/babypinetree.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/beach.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/purpleflowers.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/starrysky.jpg",
+  "https://www.tailwindtap.com/assets/components/horizontal-carousel/lake.jpg",
 ];
 
 
-const AllarticlesPage: NextPage = ({ params }: any) => {
+// 리액트 - 리덕스는 실행순서가 하향식이 아니다. -> 즉시실행함수부터 먼저 실행됨.
+// 하기 page는 .tsx이다. return은 jsx로 와야한다.
+export default function ArticlesPage ({data}:any) {
     const dispatch = useDispatch()
-    const allArticles: [] = useSelector(getAllArticles)
-    const board: IBoard = useSelector(getSingleBoard)
+    // const [articles, setArticles] = useState([])
+    const allArticles: [] = useSelector(getAllArticles) // 4번 실행 (리덕스 통해서 실행가능)
+    const countArticles = useSelector(getCount)
 
-    // if (allArticles !== undefined) {
-    //     console.log('length is ' + allArticles.length)
-    //     for (let i = 0; i < allArticles.length; i++) {
-    //         console.log(JSON.stringify(allArticles[i]))
-    //     }
-    // } else {
-    //     console.log('allArticles is undefined')
-    // }
+    if(allArticles !== undefined){ // 슬라이스 fulfilled의 전후를 확인하는 로직  (생략가능)
+        console.log('allArticles is not undefined')
 
-
-    useEffect(() => {
-        dispatch(findBoardById(params.id))
-    }, [])
-
-    const router = useRouter();
-
+        console.log('length is '+ allArticles.length)
+        for(let i=0; i< allArticles.length; i++){
+            console.log(JSON.stringify(allArticles[i]))
+        }
+    }else{
+        console.log('allArticles is undefined')
+    }
+ 
+    useEffect(() => { // 1번실행  -> 즉시실행 함수 
+        dispatch(findAllArticles(1))  // dispatch 2번실행 // (fetchAllArticles) = thunk 3번실행 (리덕스에 실행)
+        dispatch(findCount())
+    }, [dispatch]) // <- [] 안에 dispatch를 넣었다고 가정하고 dispatch(상태)가 바뀌면 useEffect 다시 실행한다.
+    
+  
+    // 하기 리턴은 jsx로 작성해야함.
     return (<>
+    <div className="flex flex-col  items-center justify-center w-full bg-white-300">
+       
+      <div className="flex overflow-x-scroll snap-x snap-mandatory max-w-6xl no-scrollbar">
+        {cards.map((data, index) => {
+          return (
 
-        <div className="flex flex-col items-center justify-center w-full bg-300">
-            <div className="flex overflow-x-scroll snap-x snap-mandatory max-w-6xl no-scrollbar">
-                {cards.map((data, index) => {
-                    return (
-                        <section
-                            className="flex-shrink-0 w-full snap-center justify-center items-center"
-                            key={index}
-                        >
-                            <img
-                                src={data}
-                                alt="Images to scroll horizontal"
-                                className="w-full h-[500px]"
-                            />
-                        </section>
-                    );
-                })}
-            </div>
-        </div>
-
-
-        {MyTypography(board.title + ' length is ' + allArticles.length, "1.5rem")}
-
-        <div className='text-center'>
-            <br />
-            {/* <MoveBotton text={"CALCEL"} path={`${PG.ARTICLE}/save`}/>    */}
-        </div>
-        <br />
-
-        <button className="btn overflow-hidden relative w-64 bg-blue-500 text-white py-4 px-4 rounded-xl font-bold uppercase -- before:block before:absolute before:h-full before:w-1/2 before:rounded-full 
-        before:bg-pink-400 before:top-0 before:left-1/4 before:transition-transform before:opacity-0 before:hover:opacity-100 hover:text-200 hover:before:animate-ping transition-all duration-300"
-                onClick={() => router.push(`${PG.ARTICLE}/save/${params.id}`)}>
-
-                <span className="relative">글쓰러가기</span>
-            </button>
-
-        <div style={{ height: "100%", width: "100%", fontSize: 50 }}>
-            {allArticles && <DataGrid 
-                rows={allArticles}
-                columns={articleColumns()}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 10,
-                        },
-                    },
-                }}
-                pageSizeOptions={[10, 20, 50]} 
-                checkboxSelection
-            />}
-            </div>
+            <section
+              className="flex-shrink-0 w-full snap-center justify-center items-center"
+              key={index}
+            >
+              {/* <img
+                src={data}
+                alt="Images to scroll horizontal"
+                className="w-full h-[500px]"
+              /> */}
+            </section>
+            
+          );
+        })}
+      </div>
+      <td>
+        <MoveButton text={"게시글 쓰기"} path={`${PG.ARTICLE}/save`}/>
+        </td>
+    </div>
+        <h2> 게시글 수 :{countArticles} </h2> 
+        <Box sx={{ height: "100%", width: '100%' }}>
+      {allArticles && <DataGrid
+        rows={allArticles}
+        columns={ArticleColumns()}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        pageSizeOptions={[5, 10, 20]} 
+        checkboxSelection
+        disableRowSelectionOnClick
+      />}
+    </Box>
     </>)
 }
-
-export default AllarticlesPage
