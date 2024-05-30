@@ -35,9 +35,9 @@ public class JwtProvider {
                 .issuer(issuer)
                 .signWith(secretKey)
                 .expiration(Date.from(expiredDate))
-                .claim("sub", "james")
+                .claim("sub", "turing")
                 .claim("username", user.getUsername())
-                .claim("job", user.getJob())  // 관리자(ad), 소비자 (role)
+                .claim("role", user.getRole())  // 관리자(ad), 소비자 (role)
                 .claim("userId", user.getId())
                 .compact();
 

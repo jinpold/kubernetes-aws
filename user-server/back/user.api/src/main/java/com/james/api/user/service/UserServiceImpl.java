@@ -140,16 +140,19 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    @Override
-    public Optional<User> findUsersByJob(String job) {
-        return userRepository.findUsersByJob(job);
-    }
+
 
     @Override
     public Boolean existsByUsername(String username) {
         Integer count  = userRepository.existsByUsername(username);
         return count ==1;
     }
+
+    @Override
+    public Optional<User> findUsersByRole(String role) {
+        return userRepository.findUsersByRole(role);
+    }
+
     @Override
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);

@@ -16,7 +16,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     // query
     Messenger login(UserDto param);
     Boolean existsByUsername(String username);
-    Optional<User> findUsersByJob(String job);
+    Optional<User> findUsersByRole(String role);
     Optional<User> findUserByUsername(String username);
     Boolean logout(String accessToken);
     Optional<UserDto> findUserInfo(String username);
@@ -34,7 +34,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .asset(dto.getAsset())
                 .mbti(dto.getMbti())
                 .InvestmentPropensity(dto.getInvestmentPropensity())
-                .job(dto.getJob())
+                .role(dto.getRole())
                 .build();
     }
 
@@ -52,7 +52,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .asset(ent.getAsset())
                 .mbti(ent.getMbti())
                 .InvestmentPropensity(ent.getInvestmentPropensity())
-                .job(ent.getJob())
+                .role(ent.getRole())
                 .regDate(ent.getRegDate().toString())
                 .modDate(ent.getModDate().toString())
                 .build();

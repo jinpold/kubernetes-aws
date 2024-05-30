@@ -6,7 +6,6 @@ import com.james.api.user.repository.UserRepository;
 import com.james.api.user.service.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +72,8 @@ public class UserController {
         return ResponseEntity.ok(service.findUserByUsername(param.getName()));
     }
     @GetMapping("/search-job")
-    public ResponseEntity<Messenger> findUsersByJob(@RequestParam("job") String job) {
-        service.findUsersByJob(job);
+    public ResponseEntity<Messenger> findUsersByRole(@RequestParam("Role") String role) {
+        service.findUsersByRole(role);
         return ResponseEntity.ok(new Messenger());
     }
 

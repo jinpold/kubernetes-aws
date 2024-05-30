@@ -14,7 +14,7 @@ export const initialState: IUser = {
     asset: 0,
     mbti: "",
     investmentPropensity: "",
-    job: "",
+    role: "",
     regDate: "",
     modDate: ""
 }

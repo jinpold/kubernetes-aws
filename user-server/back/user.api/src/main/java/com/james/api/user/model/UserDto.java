@@ -28,7 +28,7 @@ public class UserDto {
     private Long asset;
     private String mbti;
     private String InvestmentPropensity;
-    private String job;
+    private String role;
     private String regDate;
     private String modDate;
     private String token;

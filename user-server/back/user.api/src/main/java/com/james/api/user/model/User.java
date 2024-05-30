@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     @Column(name = "Investment_propensity")
     private String InvestmentPropensity;
     private String token;
-    private String job;
+    private String role;
 
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

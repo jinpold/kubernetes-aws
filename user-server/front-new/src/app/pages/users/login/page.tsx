@@ -36,7 +36,7 @@ const Login: NextPage = () => {
         // 정규표현식 : 영어 대소문자로 시작하는 6~20자의 영어소문자 또는 숫자
         // 한글 : ㄱ-힣,  /g 전역
         // const ID_CHECK = /^[a-zA-Z0-9]+[a-zA-Z0-9]{5,19}$/g
-        const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{5,11}$/g;
+        const ID_CHECK = /^[a-zA-Z0-9][a-zA-Z0-9]{5,19}$/g;
 
         ID_CHECK.test(user.username + "") ? setIsWrongId('false') : setIsWrongId('true');
 
@@ -48,9 +48,8 @@ const Login: NextPage = () => {
         setLen(false)
     }
 
-
     const handlePassword = (e: any) => {
-        const PW_CHECK = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,15}$/g;
+        const PW_CHECK = /^[a-zA-Z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]{8,20}$/g;
         PW_CHECK.test(user.password + "") ? setIsWrongPw('false') : setIsWrongPw('true');
         setUser({
             ...user,
@@ -74,8 +73,8 @@ const Login: NextPage = () => {
                             console.log("서버에서 넘어온 message " + parseCookies().message)
                             console.log("서버에서 넘어온 token " + parseCookies().accessToken)
                             console.log("token decoding 내용 " + jwtDecode<any>(parseCookies().accessToken).username)
-                            router.push(`${PG.USER}/detail/0`)
-                            router.refresh()
+                            // router.push(`${PG.USER}/detail/0`)
+                            location.replace(`${PG.USER}/detail/0`);
                         })
                         .catch((err: any) => {
                             alert("Wrong password. 시도하세요")
@@ -96,8 +95,6 @@ const Login: NextPage = () => {
             formRef.current.value = "";
         }
     }
-
-
         return (
 
             <div className="flex justify-center content-center w-screen items-center h-screen ">
@@ -105,11 +102,11 @@ const Login: NextPage = () => {
                     <div
                         className="hidden md:block lg:w-1/2 bg-cover bg-indigo-950"
                         style={{
-                            backgroundImage: `url(https://www.tailwindtap.com//assets/components/form/userlogin/login_tailwindtap.jpg)`,
+                            // backgroundImage: `url(https://www.tailwindtap.com//assets/components/form/userlogin/login_tailwindtap.jpg)`,
                         }}
                     ></div>
                     <div className="w-full p-8 lg:w-1/2">
-                        <p className="text-xl text-gray-600 text-center">Welcome back!</p>
+                        <p className="text-xl text-gray-600 text-center">Welcome!</p>
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
                                 ID

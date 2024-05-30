@@ -14,8 +14,12 @@ public class WebMvConfig implements WebMvcConfigurer { // 어플리케이션 컨
     public void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/auth/**", "/api/news/**", "/api/articles/**", "/api/boards/**" ); //auth를 갖고 있으면 토큰이 없어도 통과시켜준다.
-                                                      //로그인 해야 토큰을 주는데 토큰이 없는 경우 auth가 있으면 통과
-                                                      //아이디가 존재하는지 찾는 로직과 , 최초 로그인 로직은 토큰이 없음.
+                .excludePathPatterns("/api/auth/**", "/api/news/**", "/api/articles/**", "/api/boards/**");
+
+
+        //auth를 갖고 있으면 토큰이 없어도 통과시켜준다
+        // 로그인 해야 토큰을 주는데 토큰이 없는 경우 auth가 있으면 통과
+        //아이디가 존재하는지 찾는 로직과 , 최초 로그인 로직은 토큰이 없음.
     }
+
 }

@@ -119,9 +119,9 @@ export default function userColumns(): GridColDef[] {
             flex: 0.04,
             minWidth: 30,
             sortable: false,
-            field: 'job',
-            headerName: 'JOB',
-            renderCell: ({ row }: CellType) => MyTypography(row.job, "1.5rem")
+            field: 'role',
+            headerName: 'role',
+            renderCell: ({ row }: CellType) => MyTypography(row.role, "1.5rem")
         }
     ]
 }

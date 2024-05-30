@@ -11,7 +11,7 @@ export interface IUser {
     asset?: number;
     mbti?: string;
     investmentPropensity?: string;
-    job?: string;
+    role?: string;
     regDate?: string;
     modDate?: string;
 }
