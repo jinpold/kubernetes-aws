@@ -24,6 +24,17 @@ public class JwtProvider {
     private String issuer;
     private final SecretKey secretKey;
 
+//    public enum TokenType{REFRESH,ACCESS}
+//
+//    public TokenVo makeToken(UserDto userDto){
+//        return TokenVo.builder()
+//                .email(userDto.getUsername())
+//                .role(userDto.getJob())
+//                .refreshToken(createToken(userDto,Arrays.asList(userDto.getJob()),TokenType.REFRESH))
+//                .accessToken(createToken(userDto, Arrays.asList(userDto.getJob()),TokenType.ACCESS))
+//                .build();
+//    }
+
     public JwtProvider(@Value("${jwt.secret}") String secretKey) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
     }
@@ -34,6 +45,7 @@ public class JwtProvider {
         String accessToken = Jwts.builder()
                 .issuer(issuer)
                 .signWith(secretKey)
+//                .expiration(Date.from((tokenType.equals(TokenType.ACCESS))?Instant.now().plus(1, ChronoUnit.DAYS):Instant.now().plus(1, ChronoUnit.MINUTES)))
                 .expiration(Date.from(expiredDate))
                 .claim("sub", "turing")
                 .claim("username", user.getUsername())
